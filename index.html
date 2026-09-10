@@ -3239,6 +3239,410 @@
 })();
 </script>
 
+    <section data-tela="painel-administrativo" class="hidden">
+  <div class="flex min-h-screen bg-marca-50">
+    <aside id="painel-sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-marca-900 text-white transform -translate-x-full lg:translate-x-0 transition-transform duration-300 lg:relative lg:transform-none flex flex-col">
+      <div class="flex items-center gap-3 px-6 h-16 border-b border-white/10 flex-shrink-0">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A9 9 0 006 18c1.052 0 2.062-.18 3-.512m0-13.042A8.967 8.967 0 0118 3.75c1.052 0 2.062.18 3 .512v14.25A9 9 0 0118 18c-1.052 0-2.062-.18-3-.512"/></svg>
+        <span class="font-display font-bold text-lg">BlueCircuit</span>
+      </div>
+      <nav class="flex-1 py-4 px-3 overflow-y-auto">
+        <p class="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">Principal</p>
+        <ul class="space-y-1 mb-4">
+          <li><button onclick="mostrarTela('painel-administrativo')" class="nav-item painel-ativo w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium bg-white/10 text-white transition-colors"><svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>Dashboard</button></li>
+          <li><button onclick="mostrarTela('catalogo-produtos')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white transition-colors"><svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A9 9 0 006 18c1.052 0 2.062-.18 3-.512m0-13.042A8.967 8.967 0 0118 3.75c1.052 0 2.062.18 3 .512v14.25A9 9 0 0118 18c-1.052 0-2.062-.18-3-.512"/></svg>Produtos</button></li>
+          <li><button onclick="mostrarTela('painel-administrativo')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white transition-colors"><svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>Pedidos</button></li>
+          <li><button onclick="mostrarTela('painel-administrativo')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white transition-colors"><svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-3.51-2.346m-3.51 2.346a4.125 4.125 0 01-3.51-2.346M15 19.128v.003M15 19.128a48.47 48.47 0 01-6.364-1.87M15 19.128a48.47 48.47 0 01-1.87-6.364M15 19.128v-3.868m0 0a48.47 48.47 0 011.87-6.364m-1.87 6.364a48.47 48.47 0 01-6.364-1.87m6.364 1.87v3.868m0 0a48.47 48.47 0 01-6.364 1.87M9 9.75h6m-6 3h6m-3-3.75v3.75"/></svg>Clientes</button></li>
+          <li><button onclick="mostrarTela('perfil-do-autor')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white transition-colors"><svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>Autores</button></li>
+          <li><button onclick="mostrarTela('painel-administrativo')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white transition-colors"><svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>Relatórios</button></li>
+        </ul>
+        <p class="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">Sistema</p>
+        <ul class="space-y-1">
+          <li><button onclick="mostrarTela('painel-administrativo')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white transition-colors"><svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003 1.008c-.253.255-.427.577-.476.914l-.237 1.34c-.039.222.144.428.367.428h1.584c.55 0 1.056.39 1.106.97l.02.147c.055.414.025.837-.088 1.233l-.293.962c-.1.329-.265.636-.485.904l-.633.768c-.09.11-.043.284.09.32l1.316.388c.388.115.675.462.675.886v.586c0 .552-.39 1.028-.922 1.098l-1.554.317c-.126.026-.254.039-.384.039h-.618c-.552 0-1.022.39-1.115.941l-.413 1.962c-.065.309-.322.567-.646.7-.09.037-.182.069-.274.097l-2.096.623c-.537.16-1.12.024-1.537-.356L12.6 22.2c-.2.274-.498.444-.85.444H9.75c-.552 0-1.022-.39-1.115-.941l-.413-1.962c-.065-.309-.322-.567-.646-.7a4.613 4.613 0 01-.274-.097l-2.096-.623c-.537-.16-1.12-.024-1.537.356l-.81 1.097c-.163.22-.47.338-.76.266l-1.554-.317c-.553-.07-.922-.546-.922-1.098v-.586c0-.424.287-.771.675-.886l1.316-.388c.133-.036.18-.21.09-.32l-.633-.768a2.697 2.697 0 01-.485-.904l-.293-.962c-.113-.396-.143-.819-.088-1.233l.02-.147c.05-.58.556-.97 1.106-.97h1.584c.223 0 .406-.206.367-.428l-.237-1.34a1.556 1.556 0 01-.476-.914l-1.003-1.008a1.125 1.125 0 01-.26-1.431l1.296-2.247a1.125 1.125 0 011.37-.49l1.217.456c.355.133.75.072 1.075-.124.073-.044.146-.087.22-.127.332-.184.582-.496.645-.87l.213-1.281zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z"/></svg>Configurações</button></li>
+          <li><button onclick="mostrarTela('discussao-e-forum')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white transition-colors"><svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-3.348 8.25-7.5 8.25S6 16.556 6 12s3.348-8.25 7.5-8.25S21 7.444 21 12z"/></svg>Suporte</button></li>
+        </ul>
+      </nav>
+      <div class="border-t border-white/10 p-3 flex-shrink-0">
+        <button onclick="mostrarTela('home-vitrine')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white transition-colors"><svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0110.5 3h6a2.25 2.25 0 012.25 2.25v13.5A2.25 2.25 0 0116.5 21h-6a2.25 2.25 0 01-2.25-2.25V15m-3 0l3-3m0 0l3 3m-3-3V9"/></svg>Sair do Painel</button>
+      </div>
+    </aside>
+    <div id="painel-overlay" onclick="painel_administrativo_fecharSidebar()" class="fixed inset-0 bg-black/50 z-30 lg:hidden hidden"></div>
+    <main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+      <div class="max-w-5xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <div>
+            <h1 class="font-display text-2xl sm:text-3xl font-bold text-marca-900">Bem-vindo, Admin</h1>
+            <p class="text-marca-600 mt-1 text-sm sm:text-base">Sábado, 28 de junho de 2025 · 14:32</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button onclick="painel_administrativo_toggleNotificacoes()" class="relative p-2.5 rounded-xl bg-white border border-marca-200 text-marca-600 hover:bg-marca-50 transition-colors active:scale-95" title="Notificações"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg><span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">3</span></button>
+            <button onclick="painel_administrativo_abrirPerfil()" class="flex items-center gap-2 p-1.5 pr-4 rounded-xl bg-white border border-marca-200 hover:bg-marca-50 transition-colors active:scale-95">
+              <div class="w-8 h-8 rounded-full bg-marca-600 text-white flex items-center justify-center text-sm font-bold">AM</div>
+              <span class="text-sm font-medium text-marca-800 hidden sm:block">Admin</span>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+          <div class="bg-white rounded-xl p-4 sm:p-5 border border-marca-200/60 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-3"><div class="w-10 h-10 rounded-lg bg-marca-600/10 flex items-center justify-center"><svg class="w-5 h-5 text-marca-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><span class="badge badge-success text-[10px] px-1.5 py-0.5">+18%</span></div>
+            <p class="text-xs text-marca-500 font-medium mb-0.5">Vendas Hoje</p>
+            <p class="font-display text-xl sm:text-2xl font-bold text-marca-900" id="painel-kpi-vendas">R$ 1.847,00</p>
+          </div>
+          <div class="bg-white rounded-xl p-4 sm:p-5 border border-marca-200/60 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-3"><div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center"><svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg></div></div>
+            <p class="text-xs text-marca-500 font-medium mb-0.5">Pedidos Pendentes</p>
+            <p class="font-display text-xl sm:text-2xl font-bold text-marca-900" id="painel-kpi-pedidos">5</p>
+          </div>
+          <div class="bg-white rounded-xl p-4 sm:p-5 border border-marca-200/60 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-3"><div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center"><svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A9 9 0 006 18c1.052 0 2.062-.18 3-.512m0-13.042A8.967 8.967 0 0118 3.75c1.052 0 2.062.18 3 .512v14.25A9 9 0 0118 18c-1.052 0-2.062-.18-3-.512"/></svg></div></div>
+            <p class="text-xs text-marca-500 font-medium mb-0.5">Ebooks no Catálogo</p>
+            <p class="font-display text-xl sm:text-2xl font-bold text-marca-900">156</p>
+          </div>
+          <div class="bg-white rounded-xl p-4 sm:p-5 border border-marca-200/60 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-3"><div class="w-10 h-10 rounded-lg bg-sky-50 flex items-center justify-center"><svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-3.51-2.346m-3.51 2.346a4.125 4.125 0 01-3.51-2.346M15 19.128v.003M15 19.128a48.47 48.47 0 01-6.364-1.87M15 19.128a48.47 48.47 0 01-1.87-6.364M15 19.128v-3.868m0 0a48.47 48.47 0 011.87-6.364m-1.87 6.364a48.47 48.47 0 01-6.364-1.87m6.364 1.87v3.868m0 0a48.47 48.47 0 01-6.364 1.87M9 9.75h6m-6 3h6m-3-3.75v3.75"/></svg></div></div>
+            <p class="text-xs text-marca-500 font-medium mb-0.5">Novos Usuários</p>
+            <p class="font-display text-xl sm:text-2xl font-bold text-marca-900">12</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl border border-marca-200/60 shadow-sm p-4 sm:p-6 mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+            <div><h2 class="font-display text-lg font-bold text-marca-900">Vendas dos Últimos 7 Dias</h2><p class="text-xs text-marca-500 mt-0.5">Comparativo: semana atual × semana anterior</p></div>
+            <div class="flex items-center gap-4 text-xs"><span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-marca-600 rounded-full inline-block"></span><span class="text-marca-600 font-medium">Semana Atual</span></span><span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-marca-200 rounded-full inline-block"></span><span class="text-marca-400 font-medium">Anterior</span></span></div>
+          </div>
+          <svg id="painel-chart" viewBox="0 0 700 220" class="w-full h-auto" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="bg-white rounded-xl border border-marca-200/60 shadow-sm mb-6">
+          <div class="p-4 sm:p-5 border-b border-marca-200/60">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <h2 class="font-display text-lg font-bold text-marca-900">Pedidos Recentes</h2>
+              <div class="flex items-center gap-2 flex-wrap">
+                <div class="relative"><input type="text" id="painel-search" placeholder="Buscar pedido..." oninput="painel_administrativo_filtrarPedidos()" class="text-sm pl-9 pr-3 py-2 rounded-lg border border-marca-200 focus:border-marca-500 focus:ring-2 focus:ring-marca-100 outline-none transition-all w-48 sm:w-56 text-marca-800 placeholder:text-marca-400 bg-marca-50/50"><svg class="w-4 h-4 text-marca-400 absolute left-2.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg></div>
+                <select id="painel-filtro-status" onchange="painel_administrativo_filtrarPedidos()" class="text-sm px-3 py-2 rounded-lg border border-marca-200 focus:border-marca-500 focus:ring-2 focus:ring-marca-100 outline-none transition-all bg-white text-marca-700"><option value="">Todos Status</option><option value="Concluído">Concluído</option><option value="Processando">Processando</option><option value="Pendente">Pendente</option><option value="Cancelado">Cancelado</option></select>
+                <select id="painel-filtro-pagamento" onchange="painel_administrativo_filtrarPedidos()" class="text-sm px-3 py-2 rounded-lg border border-marca-200 focus:border-marca-500 focus:ring-2 focus:ring-marca-100 outline-none transition-all bg-white text-marca-700"><option value="">Pagamento</option><option value="Pix">Pix</option><option value="Cartão">Cartão</option><option value="Boleto">Boleto</option></select>
+              </div>
+            </div>
+          </div>
+          <div class="overflow-x-auto -mx-4 sm:mx-0"><div class="inline-block min-w-full align-middle">
+            <table class="min-w-full">
+              <thead><tr class="border-b border-marca-200/60"><th class="text-left text-xs font-semibold text-marca-500 uppercase tracking-wider px-4 sm:px-5 py-3">Cliente</th><th class="text-left text-xs font-semibold text-marca-500 uppercase tracking-wider px-2 sm:px-5 py-3 hidden md:table-cell">Ebook</th><th class="text-left text-xs font-semibold text-marca-500 uppercase tracking-wider px-2 sm:px-5 py-3 hidden sm:table-cell">Valor</th><th class="text-left text-xs font-semibold text-marca-500 uppercase tracking-wider px-2 sm:px-5 py-3 hidden lg:table-cell">Pagamento</th><th class="text-left text-xs font-semibold text-marca-500 uppercase tracking-wider px-2 sm:px-5 py-3">Status</th></tr></thead>
+              <tbody id="painel-tbody-pedidos"></tbody>
+            </table>
+          </div></div>
+          <div id="painel-vazio" class="hidden p-8 text-center"><svg class="w-12 h-12 text-marca-300 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg><p class="text-marca-500 font-medium">Nenhum pedido encontrado</p><p class="text-marca-400 text-sm mt-1">Tente alterar os filtros ou a busca</p></div>
+        </div>
+        <div>
+          <h2 class="font-display text-lg font-bold text-marca-900 mb-3">Ações Rápidas</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <button onclick="mostrarTela('catalogo-produtos')" class="btn bg-marca-600 hover:bg-marca-700 text-white rounded-xl p-4 sm:p-5 text-left active:scale-95 transition-all shadow-sm hover:shadow-md flex flex-col gap-2"><div class="w-10 h-10 rounded-lg bg-white/15 flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg></div><span class="font-semibold text-sm">Cadastrar Ebook</span><span class="text-xs text-white/70">Adicionar novo título</span></button>
+            <button onclick="mostrarTela('perfil-do-autor')" class="btn bg-white border border-marca-200 hover:border-marca-300 text-marca-800 rounded-xl p-4 sm:p-5 text-left active:scale-95 transition-all shadow-sm hover:shadow-md flex flex-col gap-2"><div class="w-10 h-10 rounded-lg bg-marca-50 flex items-center justify-center"><svg class="w-5 h-5 text-marca-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div><span class="font-semibold text-sm">Adicionar Autor</span><span class="text-xs text-marca-500">Gerenciar autores</span></button>
+            <button onclick="mostrarTela('discussao-e-forum')" class="btn bg-white border border-marca-200 hover:border-marca-300 text-marca-800 rounded-xl p-4 sm:p-5 text-left active:scale-95 transition-all shadow-sm hover:shadow-md flex flex-col gap-2"><div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center"><svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/></svg></div><span class="font-semibold text-sm">Moderar Discussões</span><span class="text-xs text-marca-500">Revisar e moderar</span></button>
+            <button onclick="painel_administrativo_acaoNotificacao()" class="btn bg-white border border-marca-200 hover:border-marca-300 text-marca-800 rounded-xl p-4 sm:p-5 text-left active:scale-95 transition-all shadow-sm hover:shadow-md flex flex-col gap-2"><div class="w-10 h-10 rounded-lg bg-sky-50 flex items-center justify-center"><svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg></div><span class="font-semibold text-sm">Enviar Notificação</span><span class="text-xs text-marca-500">Push ou WhatsApp</span></button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<script>
+(function() {
+  const pedidosData = [
+    { cliente: "Mariana Costa", email: "mariana.costa@gmail.com", avatar: "MC", avatarCor: "bg-rose-500", ebook: "Dom Casmurro", ebookAutor: "Machado de Assis", valor: 29.90, pagamento: "Pix", status: "Concluído", data: "28/06/2025 14:15", id: "BLK-8421" },
+    { cliente: "Rafael Oliveira", email: "r.oliveira@hotmail.com", avatar: "RO", avatarCor: "bg-blue-500", ebook: "1984", ebookAutor: "George Orwell", valor: 34.90, pagamento: "Cartão", status: "Concluído", data: "28/06/2025 13:42", id: "BLK-8420" },
+    { cliente: "Fernanda Lima", email: "fernanda.lima@outlook.com", avatar: "FL", avatarCor: "bg-emerald-500", ebook: "O Alquimista", ebookAutor: "Paulo Coelho", valor: 24.90, pagamento: "Pix", status: "Processando", data: "28/06/2025 12:30", id: "BLK-8419" },
+    { cliente: "Carlos Eduardo M.", email: "carlos.edu@terra.com.br", avatar: "CE", avatarCor: "bg-amber-500", ebook: "A Revolução dos Bichos", ebookAutor: "George Orwell", valor: 19.90, pagamento: "Boleto", status: "Pendente", data: "28/06/2025 11:05", id: "BLK-8418" },
+    { cliente: "Juliana Ribeiro", email: "juliana.r@icloud.com", avatar: "JR", avatarCor: "bg-purple-500", ebook: "Grande Sertão: Veredas", ebookAutor: "João Guimarães Rosa", valor: 39.90, pagamento: "Cartão", status: "Concluído", data: "28/06/2025 10:18", id: "BLK-8417" },
+    { cliente: "Pedro Henrique S.", email: "pedro.hs@gmail.com", avatar: "PH", avatarCor: "bg-teal-500", ebook: "O Pequeno Príncipe", ebookAutor: "Antoine de Saint-Exupéry", valor: 15.90, pagamento: "Pix", status: "Cancelado", data: "27/06/2025 22:45", id: "BLK-8416" },
+    { cliente: "Ana Beatriz F.", email: "anabf@yahoo.com", avatar: "AB", avatarCor: "bg-pink-500", ebook: "Memórias Póstumas", ebookAutor: "Machado de Assis", valor: 22.90, pagamento: "Cartão", status: "Concluído", data: "27/06/2025 20:12", id: "BLK-8415" },
+    { cliente: "Lucas Martins", email: "lucas.m@live.com", avatar: "LM", avatarCor: "bg-indigo-500", ebook: "Ensaio sobre a Cegueira", ebookAutor: "José Saramago", valor: 32.90, pagamento: "Pix", status: "Processando", data: "27/06/2025 18:55", id: "BLK-8414" },
+    { cliente: "Camila Nascimento", email: "camila.n@gmail.com", avatar: "CN", avatarCor: "bg-orange-500", ebook: "Vidas Secas", ebookAutor: "Graciliano Ramos", valor: 18.90, pagamento: "Boleto", status: "Pendente", data: "27/06/2025 16:30", id: "BLK-8413" },
+    { cliente: "Thiago Azevedo", email: "thiago.a@outlook.com", avatar: "TA", avatarCor: "bg-cyan-500", ebook: "Capitães da Areia", ebookAutor: "Jorge Amado", valor: 21.90, pagamento: "Pix", status: "Concluído", data: "27/06/2025 14:08", id: "BLK-8412" }
+  ];
+
+  function statusBadgeClass(status) {
+    switch (status) {
+      case 'Concluído': return 'bg-emerald-100 text-emerald-700';
+      case 'Processando': return 'bg-blue-100 text-blue-700';
+      case 'Pendente': return 'bg-amber-100 text-amber-700';
+      case 'Cancelado': return 'bg-red-100 text-red-700';
+      default: return 'bg-gray-100 text-gray-700';
+    }
+  }
+  function pagamentoIcon(p) {
+    switch (p) {
+      case 'Pix': return '<span class="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded text-xs font-medium"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M1.5 4.5h3l2.5 9.5L8.5 4.5h3l-4.5 15h-3l-2.5-9.5L1.5 19.5h-3l4.5-15z"/></svg>Pix</span>';
+      case 'Cartão': return '<span class="inline-flex items-center gap-1 text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded text-xs font-medium"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3 2.25h3m3-9h6m-6 2.25h3m-3 2.25h3"/></svg>Cartão</span>';
+      case 'Boleto': return '<span class="inline-flex items-center gap-1 text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded text-xs font-medium"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>Boleto</span>';
+    }
+  }
+  window.painel_administrativo_renderPedidos = function(filtros) {
+    const tbody = document.getElementById('painel-tbody-pedidos');
+    const vazio = document.getElementById('painel-vazio');
+    let dados = [...pedidosData];
+    if (filtros) {
+      if (filtros.q) { const term = filtros.q.toLowerCase(); dados = dados.filter(p => p.cliente.toLowerCase().includes(term) || p.ebook.toLowerCase().includes(term) || p.pagamento.toLowerCase().includes(term) || p.id.toLowerCase().includes(term)); }
+      if (filtros.status) dados = dados.filter(p => p.status === filtros.status);
+      if (filtros.pagamento) dados = dados.filter(p => p.pagamento === filtros.pagamento);
+    }
+    if (dados.length === 0) { tbody.innerHTML = ''; vazio.classList.remove('hidden'); return; }
+    vazio.classList.add('hidden');
+    tbody.innerHTML = dados.map((p, i) => {
+      return '<tr onclick="painel_administrativo_abrirPedido(' + i + ')" class="border-b border-marca-100/60 hover:bg-marca-50/50 cursor-pointer transition-colors"><td class="px-4 sm:px-5 py-3.5"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full ' + p.avatarCor + ' text-white flex items-center justify-center text-xs font-bold flex-shrink-0">' + p.avatar + '</div><div class="min-w-0"><p class="text-sm font-semibold text-marca-900 truncate">' + p.cliente + '</p><p class="text-xs text-marca-500 truncate">' + p.email + '</p></div></div></td><td class="px-2 sm:px-5 py-3.5 hidden md:table-cell"><p class="text-sm text-marca-800 font-medium">' + p.ebook + '</p><p class="text-xs text-marca-500">' + p.ebookAutor + '</p></td><td class="px-2 sm:px-5 py-3.5 hidden sm:table-cell"><p class="text-sm font-bold text-marca-900">' + window.brl(p.valor) + '</p><p class="text-xs text-marca-400">' + p.id + '</p></td><td class="px-2 sm:px-5 py-3.5 hidden lg:table-cell">' + pagamentoIcon(p.pagamento) + '</td><td class="px-2 sm:px-5 py-3.5"><span class="badge text-[11px] px-2 py-0.5 rounded-full font-medium ' + statusBadgeClass(p.status) + '">' + p.status + '</span></td></tr>';
+    }).join('');
+  };
+
+  window.painel_administrativo_filtrarPedidos = function() {
+    const q = document.getElementById('painel-search').value;
+    const status = document.getElementById('painel-filtro-status').value;
+    const pagamento = document.getElementById('painel-filtro-pagamento').value;
+    window.painel_administrativo_renderPedidos({ q: q, status: status, pagamento: pagamento });
+  };
+
+  window.painel_administrativo_abrirPedido = function(idx) {
+    const p = pedidosData[idx];
+    const html = '<div class="p-6 space-y-5"><div class="flex items-center gap-4 pb-4 border-b border-marca-200"><div class="w-12 h-12 rounded-full ' + p.avatarCor + ' text-white flex items-center justify-center text-base font-bold">' + p.avatar + '</div><div><h3 class="font-display font-bold text-lg text-marca-900">' + p.cliente + '</h3><p class="text-sm text-marca-500">' + p.email + '</p></div></div><div class="grid grid-cols-2 gap-4"><div><p class="text-xs text-marca-500 mb-1">ID do Pedido</p><p class="text-sm font-mono font-semibold text-marca-800">' + p.id + '</p></div><div><p class="text-xs text-marca-500 mb-1">Data</p><p class="text-sm font-semibold text-marca-800">' + p.data + '</p></div><div><p class="text-xs text-marca-500 mb-1">Ebook</p><p class="text-sm font-semibold text-marca-800">' + p.ebook + '</p><p class="text-xs text-marca-400">' + p.ebookAutor + '</p></div><div><p class="text-xs text-marca-500 mb-1">Valor</p><p class="text-sm font-bold text-marca-900">' + window.brl(p.valor) + '</p></div><div><p class="text-xs text-marca-500 mb-1">Pagamento</p><p class="text-sm">' + pagamentoIcon(p.pagamento) + '</p></div><div><p class="text-xs text-marca-500 mb-1">Status</p><p class="text-sm"><span class="badge text-[11px] px-2 py-0.5 rounded-full font-medium ' + statusBadgeClass(p.status) + '">' + p.status + '</span></p></div></div>';
+    if (p.status === 'Pendente') { html += '<div class="flex gap-2 pt-3 border-t border-marca-200"><button onclick="painel_administrativo_aprovarPedido(\'' + p.id + '\')" class="btn bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-4 py-2.5 rounded-lg active:scale-95 transition-all flex-1">Aprovar</button><button onclick="painel_administrativo_recusarPedido(\'' + p.id + '\')" class="btn bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2.5 rounded-lg active:scale-95 transition-all flex-1">Recusar</button></div>'; }
+    else if (p.status === 'Processando') { html += '<div class="flex gap-2 pt-3 border-t border-marca-200"><button onclick="painel_administrativo_concluirPedido(\'' + p.id + '\')" class="btn bg-marca-600 hover:bg-marca-700 text-white text-sm px-4 py-2.5 rounded-lg active:scale-95 transition-all flex-1">Marcar como Concluído</button></div>'; }
+    else if (p.status === 'Cancelado') { html += '<div class="flex gap-2 pt-3 border-t border-marca-200"><button onclick="painel_administrativo_reativarPedido(\'' + p.id + '\')" class="btn bg-marca-600 hover:bg-marca-700 text-white text-sm px-4 py-2.5 rounded-lg active:scale-95 transition-all flex-1">Reativar Pedido</button></div>'; }
+    html += '</div>';
+    window.abrirModal('Pedido #' + p.id + ' — Detalhes', html);
+  };
+
+  window.painel_administrativo_aprovarPedido = function(id) {
+    const p = pedidosData.find(x => x.id === id);
+    if (p) { p.status = 'Concluído'; window.painel_administrativo_renderPedidos(); window.fecharModal(); window.toast('Pedido ' + id + ' aprovado com sucesso!', 'ok'); }
+  };
+  window.painel_administrativo_recusarPedido = function(id) {
+    const p = pedidosData.find(x => x.id === id);
+    if (p) { p.status = 'Cancelado'; window.painel_administrativo_renderPedidos(); window.fecharModal(); window.toast('Pedido ' + id + ' recusado.', 'info'); }
+  };
+  window.painel_administrativo_concluirPedido = function(id) {
+    const p = pedidosData.find(x => x.id === id);
+    if (p) { p.status = 'Concluído'; window.painel_administrativo_renderPedidos(); window.fecharModal(); window.toast('Pedido ' + id + ' marcado como concluído!', 'ok'); }
+  };
+  window.painel_administrativo_reativarPedido = function(id) {
+    const p = pedidosData.find(x => x.id === id);
+    if (p) { p.status = 'Processando'; window.painel_administrativo_renderPedidos(); window.fecharModal(); window.toast('Pedido ' + id + ' reativado como Processando.', 'ok'); }
+  };
+
+  window.painel_administrativo_acaoNotificacao = function() {
+    const html = '<div class="p-6 space-y-4"><div><label class="block text-sm font-semibold text-marca-800 mb-1.5">Destinatários</label><select class="w-full text-sm px-3 py-2.5 rounded-lg border border-marca-200 focus:border-marca-500 focus:ring-2 focus:ring-marca-100 outline-none bg-white text-marca-700"><option>Todos os usuários</option><option>Autores cadastrados</option><option>Clientes com pedidos pendentes</option><option>Clientes VIP</option></select></div><div><label class="block text-sm font-semibold text-marca-800 mb-1.5">Tipo de Notificação</label><div class="flex gap-3"><label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="notif-tipo" value="push" checked class="accent-marca-600"><span class="text-sm text-marca-700">Push</span></label><label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="notif-tipo" value="whatsapp" class="accent-marca-600"><span class="text-sm text-marca-700">WhatsApp</span></label><label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="notif-tipo" value="email" class="accent-marca-600"><span class="text-sm text-marca-700">E-mail</span></label></div></div><div><label class="block text-sm font-semibold text-marca-800 mb-1.5">Título</label><input type="text" placeholder="Ex: Novos ebooks disponíveis!" class="w-full text-sm px-3 py-2.5 rounded-lg border border-marca-200 focus:border-marca-500 focus:ring-2 focus:ring-marca-100 outline-none text-marca-800 placeholder:text-marca-400"></div><div><label class="block text-sm font-semibold text-marca-800 mb-1.5">Mensagem</label><textarea rows="3" placeholder="Digite a mensagem da notificação..." class="w-full text-sm px-3 py-2.5 rounded-lg border border-marca-200 focus:border-marca-500 focus:ring-2 focus:ring-marca-100 outline-none resize-none text-marca-800 placeholder:text-marca-400"></textarea></div><button onclick="painel_administrativo_enviarNotificacao()" class="btn w-full bg-marca-600 hover:bg-marca-700 text-white font-semibold py-2.5 rounded-lg active:scale-95 transition-all">Enviar Notificação</button></div>';
+    window.abrirModal('Enviar Notificação', html);
+  };
+  window.painel_administrativo_enviarNotificacao = function() {
+    window.fecharModal();
+    window.toast('Notificação enviada com sucesso!', 'ok');
+  };
+
+  window.painel_administrativo_abrirPerfil = function() {
+    const html = '<div class="p-6 space-y-4"><div class="flex items-center gap-4"><div class="w-16 h-16 rounded-full bg-marca-600 text-white flex items-center justify-center text-xl font-bold">AM</div><div><h3 class="font-display font-bold text-lg text-marca-900">Admin Master</h3><p class="text-sm text-marca-500">admin@bluecircuit.com.br</p><span class="badge badge-success text-[10px] px-1.5 py-0.5 mt-1 inline-block">Online</span></div></div><div class="grid grid-cols-2 gap-3 pt-3 border-t border-marca-200"><div class="text-center p-3 bg-marca-50 rounded-lg"><p class="text-lg font-bold text-marca-900">47</p><p class="text-xs text-marca-500">Ebooks Cad.</p></div><div class="text-center p-3 bg-marca-50 rounded-lg"><p class="text-lg font-bold text-marca-900">12</p><p class="text-xs text-marca-500">Autores</p></div><div class="text-center p-3 bg-marca-50 rounded-lg"><p class="text-lg font-bold text-marca-900">1.2k</p><p class="text-xs text-marca-500">Vendas</p></div><div class="text-center p-3 bg-marca-50 rounded-lg"><p class="text-lg font-bold text-marca-900">89%</p><p class="text-xs text-marca-500">Satisfação</p></div></div></div>';
+    window.abrirModal('Perfil do Admin', html);
+  };
+
+  window.painel_administrativo_toggleNotificacoes = function() {
+    const html = '<div class="p-4 space-y-2"><div class="flex items-start gap-3 p-3 bg-emerald-50 rounded-lg"><div class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></div><div><p class="text-sm font-semibold text-marca-800">Pedido #BLK-8418</p><p class="text-xs text-marca-500">Carlos Eduardo aguarda aprovação</p><p class="text-[10px] text-marca-400 mt-1">há 5 min</p></div></div><div class="flex items-start gap-3 p-3 bg-blue-50 rounded-lg"><div class="w-2 h-2 rounded-full bg-blue-500 mt-1.5 flex-shrink-0"></div><div><p class="text-sm font-semibold text-marca-800">Novo usuário cadastrado</p><p class="text-xs text-marca-500">beatriz.silva@email.com acabou de se cadastrar</p><p class="text-[10px] text-marca-400 mt-1">há 18 min</p></div></div><div class="flex items-start gap-3 p-3 bg-amber-50 rounded-lg"><div class="w-2 h-2 rounded-full bg-amber-500 mt-1.5 flex-shrink-0"></div><div><p class="text-sm font-semibold text-marca-800">Discussão pendente de moderação</p><p class="text-xs text-marca-500">3 comentários aguardando aprovação no fórum</p><p class="text-[10px] text-marca-400 mt-1">há 1 hora</p></div></div></div>';
+    window.abrirModal('Notificações', html);
+  };
+
+  window.painel_administrativo_fecharSidebar = function() {
+    const sidebar = document.getElementById('painel-sidebar');
+    const overlay = document.getElementById('painel-overlay');
+    if (sidebar && overlay) { sidebar.classList.add('-translate-x-full'); overlay.classList.add('hidden'); }
+  };
+
+  function drawChart() {
+    const svg = document.getElementById('painel-chart');
+    if (!svg) return;
+    const w = 700, h = 220, pad = { t: 20, r: 15, b: 35, l: 45 };
+    const cw = w - pad.l - pad.r, ch = h - pad.t - pad.b;
+    const atual = [420, 380, 510, 390, 620, 540, 480];
+    const anterior = [340, 310, 430, 320, 500, 420, 360];
+    const maxV = Math.max(...atual, ...anterior) + 100;
+    const minV = 0;
+    const pts = atual.length;
+    const fnX = i => pad.l + (i / (pts - 1)) * cw;
+    const fnY = v => pad.t + ch - ((v - minV) / (maxV - minV)) * ch;
+    const pathAtual = atual.map((v, i) => (i === 0 ? 'M' : 'L') + fnX(i) + ',' + fnY(v)).join(' ');
+    const pathAnterior = anterior.map((v, i) => (i === 0 ? 'M' : 'L') + fnX(i) + ',' + fnY(v)).join(' ');
+    const areaPath = pathAtual + ' L' + fnX(pts - 1) + ',' + fnY(0) + ' L' + fnX(0) + ',' + fnY(0) + ' Z';
+    const dias = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+    let svgContent = '<defs><linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/><stop offset="100%" stop-color="#2563EB" stop-opacity="0.01"/></linearGradient></defs>';
+    svgContent += '<line x1="' + pad.l + '" y1="' + pad.t + '" x2="' + pad.l + '" y2="' + (pad.t + ch) + '" stroke="#E2E8F0" stroke-width="1"/>';
+    svgContent += '<line x1="' + pad.l + '" y1="' + (pad.t + ch) + '" x2="' + (w - pad.r) + '" y2="' + (pad.t + ch) + '" stroke="#E2E8F0" stroke-width="1"/>';
+    [0, 0.25, 0.5, 0.75, 1].forEach(f => {
+      const y = pad.t + ch - f * ch;
+      const val = Math.round(f * maxV);
+      svgContent += '<line x1="' + pad.l + '" y1="' + y + '" x2="' + (w - pad.r) + '" y2="' + y + '" stroke="#F1F5F9" stroke-width="1" stroke-dasharray="3,3"/>';
+      svgContent += '<text x="' + (pad.l - 8) + '" y="' + (y + 4) + '" text-anchor="end" fill="#94A3B8" font-size="10" font-family="inherit">R$ ' + val + '</text>';
+    });
+    dias.forEach((d, i) => {
+      const x = fnX(i);
+      svgContent += '<text x="' + x + '" y="' + (pad.t + ch + 18) + '" text-anchor="middle" fill="#94A3B8" font-size="11" font-family="inherit">' + d + '</text>';
+    });
+    svgContent += '<path d="' + areaPath + '" fill="url(#areaGrad)"/>';
+    svgContent += '<path d="' + pathAnterior + '" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="5,4"/>';
+    svgContent += '<path d="' + pathAtual + '" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+    atual.forEach((v, i) => {
+      const x = fnX(i), y = fnY(v);
+      svgContent += '<circle cx="' + x + '" cy="' + y + '" r="4" fill="#2563EB" stroke="white" stroke-width="2"/>';
+      svgContent += '<text x="' + x + '" y="' + (y - 12) + '" text-anchor="middle" fill="#2563EB" font-size="10" font-weight="600" font-family="inherit">R
+        </main>
+
+        <!-- Navegação Inferior -->
+        <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 bg-white shadow-nav z-50 flex items-center justify-around px-1 pb-1 pt-2" style="max-width:390px; border-radius: 20px 20px 0 0;" data-nav="home-vitrine">
+
+            <button data-nav="home-vitrine" onclick="mostrarTela('home-vitrine')"
+                class="flex flex-col items-center gap-0.5 py-1 px-2 rounded-xl transition-all duration-200 text-marca-700/50 hover:text-marca-500 min-w-[56px] ativo">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125a2.25 2.25 0 002.25 2.25h3.75a2.25 2.25 0 002.25-2.25V15a2.25 2.25 0 012.25-2.25h1.5A2.25 2.25 0 0116.5 15v5.625a2.25 2.25 0 002.25 2.25h3.75a2.25 2.25 0 002.25-2.25V9.75M9 15h6"/></svg>
+                <span class="text-[10px] font-semibold">Início</span>
+            </button>
+
+            <button data-nav="minha-biblioteca" onclick="mostrarTela('minha-biblioteca')"
+                class="flex flex-col items-center gap-0.5 py-1 px-2 rounded-xl transition-all duration-200 text-marca-700/50 hover:text-marca-500 min-w-[56px]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A9 9 0 006 18a2.25 2.25 0 012.25-2.25h10.5A2.25 2.25 0 0121 18a8.967 8.967 0 00-6-2.767V6.042z"/></svg>
+                <span class="text-[10px] font-semibold">Biblioteca</span>
+            </button>
+
+            <button data-nav="detalhe-do-ebook" onclick="mostrarTela('detalhe-do-ebook')"
+                class="flex flex-col items-center gap-0.5 py-1 px-2 rounded-xl transition-all duration-200 text-marca-700/50 hover:text-marca-500 min-w-[56px]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 0010.5 5.106a7.5 7.5 0 00-5.197 10.697M21 21l-6.75-6.75"/></svg>
+                <span class="text-[10px] font-semibold">Buscar</span>
+            </button>
+
+            <button data-nav="carrinho-de-compras" onclick="mostrarTela('carrinho-de-compras')"
+                class="flex flex-col items-center gap-0.5 py-1 px-2 rounded-xl transition-all duration-200 text-marca-700/50 hover:text-marca-500 min-w-[56px] relative">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>
+                <span id="nav-cart-badge" class="hidden absolute -top-0.5 right-1 w-4 h-4 bg-destaque-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">0</span>
+                <span class="text-[10px] font-semibold">Carrinho</span>
+            </button>
+
+            <button data-nav="painel-administrativo" onclick="mostrarTela('painel-administrativo')"
+                class="flex flex-col items-center gap-0.5 py-1 px-2 rounded-xl transition-all duration-200 text-marca-700/50 hover:text-marca-500 min-w-[56px]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.25h15a1.5 1.5 0 001.5-1.5V18a5.25 5.25 0 00-10.5 0v.75a1.5 1.5 0 01-1.5 1.5H4.5z"/></svg>
+                <span class="text-[10px] font-semibold">Perfil</span>
+            </button>
+
+        </nav>
+    </div>
+
+    <!-- ====== CONTÊINER DE TOASTS (global, fora do frame) ====== -->
+    <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] flex flex-col gap-2 pointer-events-none" style="max-width:370px; width:calc(100% - 32px);"></div>
+
+    <!-- ====== MODAL GENÉRICO (global) ====== -->
+    <div id="modal-overlay" class="hidden fixed inset-0 z-[9998] items-end sm:items-center justify-center">
+        <div id="modal-backdrop" class="absolute inset-0 bg-black/50 modal-bg-anim"></div>
+        <div id="modal-card" class="relative bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-[390px] max-h-[80vh] flex flex-col modal-card-anim shadow-marca-xl">
+            <div class="flex items-center justify-between p-5 pb-3 border-b border-gray-100">
+                <h3 id="modal-titulo" class="font-display text-lg font-bold text-marca-700"></h3>
+                <button onclick="fecharModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors" aria-label="Fechar modal">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div id="modal-conteudo" class="p-5 overflow-y-auto flex-1"></div>
+            <div class="p-4 border-t border-gray-100 flex justify-end gap-2" id="modal-acoes"></div>
+        </div>
+    </div>
+
+    <!-- Espaço para o conteúdo das telas + utilitários globais -->
+    <script>
+        // ====== UTILITÁRIOS GLOBAIS ======
+
+        function brl(valor) {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+        }
+
+        function dataBR(iso) {
+            if (!iso) return '—';
+            const d = new Date(iso + 'T00:00:00');
+            return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function toast(mensagem, tipo) {
+            tipo = tipo || 'info';
+            var container = document.getElementById('toast-container');
+            var el = document.createElement('div');
+            var cores = {
+                ok: 'bg-emerald-600 text-white',
+                erro: 'bg-red-600 text-white',
+                info: 'bg-marca-700 text-white'
+            };
+            var icones = {
+                ok: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>',
+                erro: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>',
+                info: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
+            };
+            el.className = 'toast-enter pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl shadow-lg ' + (cores[tipo] || cores.info);
+            el.innerHTML = icones[tipo] + '<span class="font-semibold text-sm flex-1">' + mensagem + '</span>';
+            container.appendChild(el);
+            setTimeout(function() {
+                el.classList.remove('toast-enter');
+                el.classList.add('toast-exit');
+                setTimeout(function() { el.remove(); }, 250);
+            }, 3000);
+        }
+
+        function abrirModal(html, titulo) {
+            titulo = titulo || '';
+            document.getElementById('modal-titulo').textContent = titulo;
+            document.getElementById('modal-conteudo').innerHTML = html;
+            document.getElementById('modal-acoes').innerHTML = '';
+            var overlay = document.getElementById('modal-overlay');
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModal() {
+            var overlay = document.getElementById('modal-overlay');
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modal-backdrop').addEventListener('click', fecharModal);
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') fecharModal(); });
+
+        // Atualiza relógio da barra de status
+        function atualizarRelogio() {
+            var agora = new Date();
+            var h = agora.getHours().toString().padStart(2, '0');
+            var m = agora.getMinutes().toString().padStart(2, '0');
+            var el = document.getElementById('status-time');
+            if (el) el.textContent = h + ':' + m;
+        }
+        atualizarRelogio();
+        setInterval(atualizarRelogio, 30000);
+
+        // ====== ROTEADOR ======
+        function mostrarTela(id) {
+            document.querySelectorAll('[data-tela]').forEach(function (s) {
+                s.classList.toggle('hidden', s.dataset.tela !== id);
+            });
+            document.querySelectorAll('[data-nav]').forEach(function (b) {
+                b.classList.toggle('ativo', b.dataset.nav === id);
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            mostrarTela('home-vitrine');
+        });
+    </script>
+
+</body>
+</html> + v + '</text>';
+    });
+    svg.innerHTML = svgContent;
+  }
+
+  window.painel_administrativo_inicializar = function() {
+    window.painel_administrativo_renderPedidos();
+    drawChart();
+  };
+
+  window.painel_administrativo_inicializar();
+})();
+</script>
+
     <!-- TELAS -->
         </main>
 
