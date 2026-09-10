@@ -1853,6 +1853,327 @@
 })();
 </script>
 
+    <section data-tela="minha-biblioteca" class="hidden">
+      <div class="px-4 pb-24 pt-4 max-w-[430px] mx-auto min-h-screen bg-slate-50">
+        <div class="flex items-center justify-between mb-1">
+          <div>
+            <h1 class="font-display text-2xl font-bold text-marca-900">Minha Biblioteca</h1>
+            <p class="text-sm text-slate-500 mt-0.5">3 ebooks disponíveis · 2 sincronizados</p>
+          </div>
+          <button onclick="minha_biblioteca_abrirFiltros()" class="p-2.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all active:scale-95">
+            <svg class="w-5 h-5 text-marca-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+          </button>
+        </div>
+
+        <div id="filtro-biblioteca" class="hidden mt-3 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Buscar por título ou autor</label>
+            <input id="busca-biblioteca" oninput="minha_biblioteca_filtrar()" type="text" placeholder="Digite para buscar..." class="w-full mt-1.5 px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-marca-300 focus:border-marca-400 transition-all">
+          </div>
+          <div class="flex gap-3">
+            <div class="flex-1">
+              <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Filtrar autor</label>
+              <select id="filtro-autor" onchange="minha_biblioteca_filtrar()" class="w-full mt-1.5 px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-marca-300">
+                <option value="">Todos os autores</option>
+                <option value="Mário de Andrade">Mário de Andrade</option>
+                <option value="Clarice Lispector">Clarice Lispector</option>
+                <option value="Machado de Assis">Machado de Assis</option>
+                <option value="Monteiro Lobato">Monteiro Lobato</option>
+                <option value="Jorge Amado">Jorge Amado</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Ordenar</label>
+              <select id="ordenacao" onchange="minha_biblioteca_filtrar()" class="w-full mt-1.5 px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-marca-300">
+                <option value="data">Data de compra</option>
+                <option value="titulo">Título A-Z</option>
+                <option value="autor">Autor A-Z</option>
+                <option value="progresso">Progresso</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex mt-4 bg-white rounded-2xl p-1 shadow-sm border border-slate-200">
+          <button onclick="minha_biblioteca_mudarAba('todos')" data-aba="todos" class="aba-biblioteca flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all bg-marca-600 text-white">Todos</button>
+          <button onclick="minha_biblioteca_mudarAba('concluidos')" data-aba="concluidos" class="aba-biblioteca flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all text-slate-500 hover:text-marca-700">Concluídos</button>
+          <button onclick="minha_biblioteca_mudarAba('downloads')" data-aba="downloads" class="aba-biblioteca flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all text-slate-500 hover:text-marca-700">Downloads</button>
+        </div>
+
+        <div id="grid-ebooks" class="grid grid-cols-2 gap-3 mt-4">
+        </div>
+        <div id="vazio-biblioteca" class="hidden text-center py-12">
+          <svg class="w-16 h-16 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <p class="text-slate-500 font-medium">Nenhum ebook encontrado</p>
+          <p class="text-sm text-slate-400 mt-1">Tente ajustar seus filtros</p>
+        </div>
+
+        <div class="mt-6">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-display text-lg font-bold text-marca-900">Meus Pedidos</h2>
+            <span id="contador-pedidos" class="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full font-medium">5 pedidos</span>
+          </div>
+          <div id="lista-pedidos" class="space-y-2.5">
+          </div>
+        </div>
+
+        <div id="detalhe-modal-container"></div>
+      </div>
+
+      <script>
+      (function() {
+        var ebooks = [
+          { id: 1, titulo: 'Grande Sertão: Veredas', autor: 'João Guimarães Rosa', progresso: 67, cor: '#1E3A5F', baixado: true, concluido: false, dataCompra: '2025-10-15', valor: 32.90, pagamento: 'Pix', status: 'acessado', genero: 'Romance', paginas: 486, avaliacao: 4.8 },
+          { id: 2, titulo: 'A Paixão Segundo G.H.', autor: 'Clarice Lispector', progresso: 100, cor: '#2563EB', baixado: true, concluido: true, dataCompra: '2025-09-22', valor: 24.50, pagamento: 'Cartão', status: 'baixado', genero: 'Ficção', paginas: 192, avaliacao: 4.6 },
+          { id: 3, titulo: 'Dom Casmurro', autor: 'Machado de Assis', progresso: 34, cor: '#1E3A5F', baixado: false, concluido: false, dataCompra: '2025-11-03', valor: 19.90, pagamento: 'Pix', status: 'aprovado', genero: 'Romance', paginas: 256, avaliacao: 4.7 },
+          { id: 4, titulo: 'Memórias Póstumas', autor: 'Machado de Assis', progresso: 100, cor: '#2563EB', baixado: true, concluido: true, dataCompra: '2025-08-10', valor: 21.00, pagamento: 'Cartão', status: 'baixado', genero: 'Romance', paginas: 224, avaliacao: 4.5 },
+          { id: 5, titulo: 'Reinações de Narizinho', autor: 'Monteiro Lobato', progresso: 12, cor: '#1E3A5F', baixado: false, concluido: false, dataCompra: '2025-11-08', valor: 15.90, pagamento: 'Boleto', status: 'aprovado', genero: 'Infantil', paginas: 168, avaliacao: 4.9 },
+          { id: 6, titulo: 'Capitães da Areia', autor: 'Jorge Amado', progresso: 89, cor: '#2563EB', baixado: true, concluido: false, dataCompra: '2025-10-28', valor: 27.50, pagamento: 'Pix', status: 'acessado', genero: 'Romance', paginas: 312, avaliacao: 4.7 },
+          { id: 7, titulo: 'Macunaíma', autor: 'Mário de Andrade', progresso: 100, cor: '#1E3A5F', baixado: true, concluido: true, dataCompra: '2025-07-15', valor: 22.00, pagamento: 'Cartão', status: 'baixado', genero: 'Ficção', paginas: 208, avaliacao: 4.4 },
+          { id: 8, titulo: 'A Hora da Estrela', autor: 'Clarice Lispector', progresso: 45, cor: '#2563EB', baixado: false, concluido: false, dataCompra: '2025-11-12', valor: 18.00, pagamento: 'Pix', status: 'acessado', genero: 'Ficção', paginas: 136, avaliacao: 4.6 }
+        ];
+
+        var abaAtiva = 'todos';
+        var circularProgressCounter = 0;
+
+        function minha_biblioteca_iniciar() {
+          minha_biblioteca_renderizar(ebooks);
+          minha_biblioteca_renderizarPedidos(ebooks);
+          window._minha_biblioteca_ebooks = ebooks;
+        }
+
+        function minha_biblioteca_mudarAba(aba) {
+          abaAtiva = aba;
+          document.querySelectorAll('.aba-biblioteca').forEach(function(b) {
+            b.classList.remove('bg-marca-600', 'text-white');
+            b.classList.add('text-slate-500');
+          });
+          var btn = document.querySelector('[data-aba="' + aba + '"]');
+          if (btn) {
+            btn.classList.add('bg-marca-600', 'text-white');
+            btn.classList.remove('text-slate-500');
+          }
+          minha_biblioteca_filtrar();
+        }
+
+        function minha_biblioteca_filtrar() {
+          var busca = '';
+          var elBusca = document.getElementById('busca-biblioteca');
+          if (elBusca) busca = elBusca.value.toLowerCase();
+          var filtroAutor = '';
+          var elAutor = document.getElementById('filtro-autor');
+          if (elAutor) filtroAutor = elAutor.value;
+          var ordenacao = 'data';
+          var elOrd = document.getElementById('ordenacao');
+          if (elOrd) ordenacao = elOrd.value;
+
+          var filtrados = ebooks.filter(function(e) {
+            if (abaAtiva === 'concluidos' && !e.concluido) return false;
+            if (abaAtiva === 'downloads' && !e.baixado) return false;
+            if (busca && e.titulo.toLowerCase().indexOf(busca) === -1 && e.autor.toLowerCase().indexOf(busca) === -1) return false;
+            if (filtroAutor && e.autor !== filtroAutor) return false;
+            return true;
+          });
+
+          filtrados.sort(function(a, b) {
+            if (ordenacao === 'titulo') return a.titulo.localeCompare(b.titulo);
+            if (ordenacao === 'autor') return a.autor.localeCompare(b.autor);
+            if (ordenacao === 'progresso') return b.progresso - a.progresso;
+            return new Date(b.dataCompra) - new Date(a.dataCompra);
+          });
+
+          minha_biblioteca_renderizar(filtrados);
+        }
+
+        function minha_biblioteca_renderizar(lista) {
+          var grid = document.getElementById('grid-ebooks');
+          var vazio = document.getElementById('vazio-biblioteca');
+          if (lista.length === 0) {
+            grid.classList.add('hidden');
+            vazio.classList.remove('hidden');
+            return;
+          }
+          grid.classList.remove('hidden');
+          vazio.classList.add('hidden');
+          grid.innerHTML = lista.map(function(e) {
+            var iniciais = e.autor.split(' ').map(function(w){return w[0]}).slice(0,2).join('');
+            var circumference = 2 * Math.PI * 18;
+            var offset = circumference - (e.progresso / 100) * circumference;
+            var capaGrad = e.cor === '#1E3A5F' ? 'from-marca-800 to-marca-600' : 'from-blue-600 to-blue-400';
+            var statusBadge = e.concluido
+              ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700 uppercase tracking-wide">Concluído</span>'
+              : e.baixado
+              ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 uppercase tracking-wide">Baixado</span>'
+              : '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-100 text-sky-700 uppercase tracking-wide">Online</span>';
+            return '<div class="card bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-slate-200 transition-all duration-300 cursor-pointer group" onclick="minha_biblioteca_abrirDetalhe(' + e.id + ')">' +
+              '<div class="relative h-44 bg-gradient-to-br ' + capaGrad + ' flex items-center justify-center p-4 overflow-hidden">' +
+                '<div class="absolute top-3 right-3">' + statusBadge + '</div>' +
+                '<div class="text-center">' +
+                  '<div class="text-5xl font-display font-black text-white/20 leading-none select-none">' + e.titulo.charAt(0) + '</div>' +
+                  '<div class="mt-2 text-xs font-medium text-white/70 line-clamp-2 leading-snug">' + e.titulo + '</div>' +
+                '</div>' +
+                '<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>' +
+              '</div>' +
+              '<div class="p-3">' +
+                '<h3 class="font-display font-bold text-sm text-marca-900 leading-tight line-clamp-1">' + e.titulo + '</h3>' +
+                '<p class="text-xs text-slate-500 mt-1">' + e.autor + '</p>' +
+                '<div class="flex items-center justify-between mt-3">' +
+                  '<div class="flex items-center gap-2">' +
+                    '<div class="relative w-10 h-10">' +
+                      '<svg class="w-10 h-10 -rotate-90" viewBox="0 0 44 44">' +
+                        '<circle cx="22" cy="22" r="18" fill="none" stroke="#f1f5f9" stroke-width="4"/>' +
+                        '<circle cx="22" cy="22" r="18" fill="none" stroke="#2563EB" stroke-width="4" stroke-dasharray="' + (circumference) + '" stroke-dashoffset="' + offset + '" stroke-linecap="round" style="transition:stroke-dashoffset .6s ease"/>' +
+                      '</svg>' +
+                      '<span class="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-marca-800">' + e.progresso + '%</span>' +
+                    '</div>' +
+                    '<span class="text-[10px] text-slate-400">lido</span>' +
+                  '</div>' +
+                '</div>' +
+                '<button onclick="event.stopPropagation(); minha_biblioteca_continuarLendo(' + e.id + ')" class="w-full mt-2.5 py-2.5 rounded-xl bg-marca-600 text-white text-sm font-semibold hover:bg-marca-700 active:scale-[0.97] transition-all shadow-sm shadow-marca-600/20">' +
+                  'Continuar Lendo' +
+                '</button>' +
+              '</div>' +
+            '</div>';
+          }).join('');
+        }
+
+        function minha_biblioteca_renderizarPedidos(lista) {
+          var container = document.getElementById('lista-pedidos');
+          var contador = document.getElementById('contador-pedidos');
+          contador.textContent = lista.length + ' pedido' + (lista.length !== 1 ? 's' : '');
+          container.innerHTML = lista.map(function(e) {
+            var statusConfig = {
+              'aprovado': { bg: 'bg-sky-100', text: 'text-sky-700', label: 'Aprovado', icon: 'M5 13l4 4L19 7' },
+              'acessado': { bg: 'bg-violet-100', text: 'text-violet-700', label: 'Acessado', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' },
+              'baixado': { bg: 'bg-green-100', text: 'text-green-700', label: 'Baixado', icon: 'M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4' }
+            };
+            var s = statusConfig[e.status] || statusConfig['aprovado'];
+            return '<div class="card bg-white rounded-xl p-3.5 border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer" onclick="minha_biblioteca_abrirDetalhePedido(' + e.id + ')">' +
+              '<div class="flex items-start gap-3">' +
+                '<div class="w-10 h-14 rounded-md bg-gradient-to-br flex-shrink-0 flex items-center justify-center ' + (e.cor === '#1E3A5F' ? 'from-marca-800 to-marca-600' : 'from-blue-600 to-blue-400') + '">' +
+                  '<span class="text-white font-display font-black text-lg">' + e.titulo.charAt(0) + '</span>' +
+                '</div>' +
+                '<div class="flex-1 min-w-0">' +
+                  '<h4 class="font-display font-bold text-sm text-marca-900 truncate">' + e.titulo + '</h4>' +
+                  '<p class="text-xs text-slate-500 mt-0.5">' + e.autor + '</p>' +
+                  '<div class="flex items-center gap-2 mt-1.5">' +
+                    '<span class="text-xs text-slate-400">' + dataBR(e.dataCompra) + '</span>' +
+                    '<span class="w-1 h-1 rounded-full bg-slate-300"></span>' +
+                    '<span class="text-xs text-slate-400">' + e.pagamento + '</span>' +
+                  '</div>' +
+                '</div>' +
+                '<div class="text-right flex-shrink-0">' +
+                  '<span class="text-sm font-bold text-marca-900">' + brl(e.valor) + '</span>' +
+                  '<div class="mt-1.5">' +
+                    '<span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full ' + s.bg + ' ' + s.text + '">' +
+                      '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M' + s.icon + '"/></svg>' +
+                      s.label +
+                    '</span>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+          }).join('');
+        }
+
+        function minha_biblioteca_abrirDetalhe(id) {
+          var e = ebooks.find(function(x){return x.id === id});
+          if (!e) return;
+          var stars = Array.from({length:5}, function(_,i){return i < Math.round(e.avaliacao) ? '★' : '☆';}).join('');
+          var capaGrad = e.cor === '#1E3A5F' ? 'from-marca-800 to-marca-600' : 'from-blue-600 to-blue-400';
+          var html = '<div class="text-center mb-5">' +
+            '<div class="w-28 h-40 rounded-xl bg-gradient-to-br ' + capaGrad + ' mx-auto flex items-center justify-center shadow-lg shadow-black/20">' +
+              '<span class="text-white font-display font-black text-5xl">' + e.titulo.charAt(0) + '</span>' +
+            '</div>' +
+            '<h3 class="font-display font-bold text-xl text-marca-900 mt-4">' + e.titulo + '</h3>' +
+            '<p class="text-sm text-slate-500 mt-1">' + e.autor + '</p>' +
+            '<div class="text-amber-400 text-lg mt-1.5 tracking-widest">' + stars + ' <span class="text-xs text-slate-400">' + e.avaliacao + '</span></div>' +
+          '</div>' +
+          '<div class="grid grid-cols-3 gap-2 mb-5">' +
+            '<div class="bg-slate-50 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-marca-900">' + e.progresso + '%</div><div class="text-[10px] text-slate-500 mt-0.5">Lido</div></div>' +
+            '<div class="bg-slate-50 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-marca-900">' + e.paginas + '</div><div class="text-[10px] text-slate-500 mt-0.5">Páginas</div></div>' +
+            '<div class="bg-slate-50 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-marca-900">' + e.genero + '</div><div class="text-[10px] text-slate-500 mt-0.5">Gênero</div></div>' +
+          '</div>' +
+          '<div class="flex items-center justify-between mb-4">' +
+            '<span class="text-xs text-slate-500">Comprado em ' + dataBR(e.dataCompra) + '</span>' +
+            '<span class="text-sm font-bold text-marca-900">' + brl(e.valor) + '</span>' +
+          '</div>' +
+          '<div class="space-y-2 mb-5">' +
+            '<div class="w-full bg-slate-200 rounded-full h-2"><div class="bg-marca-500 h-2 rounded-full transition-all" style="width:' + e.progresso + '%"></div></div>' +
+            '<div class="flex justify-between text-xs text-slate-500"><span>' + e.progresso + '% concluído</span><span>Página ' + Math.round(e.paginas * e.progresso / 100) + '/' + e.paginas + '</span></div>' +
+          '</div>' +
+          '<div class="flex gap-2">' +
+            '<button onclick="fecharModal(); minha_biblioteca_continuarLendo(' + e.id + ')" class="flex-1 py-3 rounded-xl bg-marca-600 text-white text-sm font-bold hover:bg-marca-700 active:scale-95 transition-all">Continuar Lendo</button>' +
+            (e.baixado
+              ? '<button onclick="fecharModal(); toast(\'Ebook já está disponível offline\', \'info\')" class="px-4 py-3 rounded-xl bg-green-50 text-green-700 text-sm font-bold border border-green-200 active:scale-95 transition-all">✓ Salvo</button>'
+              : '<button onclick="fecharModal(); minha_biblioteca_baixar(' + e.id + ')" class="px-4 py-3 rounded-xl bg-marca-50 text-marca-700 text-sm font-bold border border-marca-200 active:scale-95 transition-all flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>Baixar</button>'
+            ) +
+          '</div>';
+          abrirModal(html, 'Detalhe do Ebook');
+        }
+
+        function minha_biblioteca_abrirDetalhePedido(id) {
+          var e = ebooks.find(function(x){return x.id === id});
+          if (!e) return;
+          var s = { aprovado: 'Aguardando acesso', acessado: 'Último acesso: ' + dataBR(e.dataCompra), baixado: 'Disponível offline' };
+          var html = '<div class="space-y-3">' +
+            '<div class="flex items-center gap-3 bg-slate-50 rounded-xl p-3">' +
+              '<div class="w-12 h-16 rounded-lg bg-gradient-to-br flex items-center justify-center ' + (e.cor === '#1E3A5F' ? 'from-marca-800 to-marca-600' : 'from-blue-600 to-blue-400') + '">' +
+                '<span class="text-white font-display font-black text-xl">' + e.titulo.charAt(0) + '</span>' +
+              '</div>' +
+              '<div><h4 class="font-display font-bold text-marca-900">' + e.titulo + '</h4><p class="text-sm text-slate-500">' + e.autor + '</p></div>' +
+            '</div>' +
+            '<div class="grid grid-cols-2 gap-2 text-sm">' +
+              '<div class="bg-slate-50 rounded-lg p-2.5"><span class="text-slate-500 text-xs">Data</span><p class="font-semibold text-marca-900 mt-0.5">' + dataBR(e.dataCompra) + '</p></div>' +
+              '<div class="bg-slate-50 rounded-lg p-2.5"><span class="text-slate-500 text-xs">Valor</span><p class="font-semibold text-marca-900 mt-0.5">' + brl(e.valor) + '</p></div>' +
+              '<div class="bg-slate-50 rounded-lg p-2.5"><span class="text-slate-500 text-xs">Pagamento</span><p class="font-semibold text-marca-900 mt-0.5">' + e.pagamento + '</p></div>' +
+              '<div class="bg-slate-50 rounded-lg p-2.5"><span class="text-slate-500 text-xs">Status</span><p class="font-semibold text-marca-900 mt-0.5">' + e.status.charAt(0).toUpperCase() + e.status.slice(1) + '</p></div>' +
+            '</div>' +
+            '<p class="text-xs text-slate-400 italic">' + s[e.status] + '</p>' +
+            '<button onclick="fecharModal(); mostrarTela('leitor-de-ebook')" class="w-full py-3 rounded-xl bg-marca-600 text-white text-sm font-bold hover:bg-marca-700 active:scale-95 transition-all">Abrir Leitor</button>' +
+          '</div>';
+          abrirModal(html, 'Detalhe do Pedido');
+        }
+
+        function minha_biblioteca_continuarLendo(id) {
+          var e = ebooks.find(function(x){return x.id === id});
+          if (!e) return;
+          if (!e.baixado) {
+            toast('Conectando ao leitor online...', 'info');
+          }
+          toast('Abrindo "' + e.titulo + '" na página ' + Math.round(e.paginas * e.progresso / 100), 'ok');
+          mostrarTela('leitor-de-ebook');
+        }
+
+        function minha_biblioteca_baixar(id) {
+          var e = ebooks.find(function(x){return x.id === id});
+          if (!e) return;
+          e.baixado = true;
+          e.status = 'baixado';
+          toast('"' + e.titulo + '" baixado para leitura offline!', 'ok');
+          minha_biblioteca_filtrar();
+          minha_biblioteca_renderizarPedidos(ebooks);
+        }
+
+        function minha_biblioteca_abrirFiltros() {
+          var el = document.getElementById('filtro-biblioteca');
+          el.classList.toggle('hidden');
+        }
+
+        window.minha_biblioteca_iniciar = minha_biblioteca_iniciar;
+        window.minha_biblioteca_mudarAba = minha_biblioteca_mudarAba;
+        window.minha_biblioteca_filtrar = minha_biblioteca_filtrar;
+        window.minha_biblioteca_continuarLendo = minha_biblioteca_continuarLendo;
+        window.minha_biblioteca_baixar = minha_biblioteca_baixar;
+        window.minha_biblioteca_abrirDetalhe = minha_biblioteca_abrirDetalhe;
+        window.minha_biblioteca_abrirDetalhePedido = minha_biblioteca_abrirDetalhePedido;
+        window.minha_biblioteca_abrirFiltros = minha_biblioteca_abrirFiltros;
+
+        minha_biblioteca_iniciar();
+      })();
+      </script>
+    </section>
+
     <!-- TELAS -->
         </main>
 
