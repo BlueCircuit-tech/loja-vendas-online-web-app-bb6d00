@@ -2672,6 +2672,573 @@
       </div>
     </section>
 
+    <section data-tela="discussao-e-forum" class="hidden">
+    <div class="min-h-full bg-slate-50 pb-20">
+        <!-- Cabeçalho da tela -->
+        <div class="bg-marca-600 px-5 pt-12 pb-4 rounded-b-2xl shadow-lg">
+            <div class="flex items-center justify-between mb-3">
+                <div>
+                    <h1 class="font-display text-xl font-bold text-white">Discussão e Fórum</h1>
+                    <p class="text-blue-200 text-xs mt-0.5">Converse sobre seus livros favoritos</p>
+                </div>
+                <div class="relative">
+                    <button onclick="discussao_e_forum_novo_topico()" class="w-10 h-10 bg-white/15 hover:bg-white/25 active:scale-95 rounded-full flex items-center justify-center transition-all">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    </button>
+                    <span class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-marca-600 text-[8px] font-bold text-white flex items-center justify-center">3</span>
+                </div>
+            </div>
+            <!-- Busca -->
+            <div class="relative">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input id="forum-busca" oninput="discussao_e_forum_buscar(this.value)" type="text" placeholder="Buscar discussões..." class="w-full bg-white/15 backdrop-blur text-white placeholder-blue-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-white/40 transition">
+            </div>
+        </div>
+
+        <!-- Indicadores rápidos -->
+        <div class="px-4 mt-4 grid grid-cols-3 gap-2">
+            <div class="bg-white rounded-xl p-3 shadow-sm border border-slate-100 text-center">
+                <span class="block font-display font-bold text-marca-600 text-lg" id="forum-ind-ativos">24</span>
+                <span class="text-[10px] text-slate-500 font-medium">Ativos</span>
+            </div>
+            <div class="bg-white rounded-xl p-3 shadow-sm border border-slate-100 text-center">
+                <span class="block font-display font-bold text-emerald-500 text-lg" id="forum-ind-resolvidos">156</span>
+                <span class="text-[10px] text-slate-500 font-medium">Resolvidos</span>
+            </div>
+            <div class="bg-white rounded-xl p-3 shadow-sm border border-slate-100 text-center">
+                <span class="block font-display font-bold text-amber-500 text-lg">89</span>
+                <span class="text-[10px] text-slate-500 font-medium">Online</span>
+            </div>
+        </div>
+
+        <!-- Chips de filtro -->
+        <div class="px-4 mt-4">
+            <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide" id="forum-filtros">
+                <button onclick="discussao_e_forum_filtrar('todos')" data-filtro="todos" class="forum-chip flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all bg-marca-600 text-white">Todos</button>
+                <button onclick="discussao_e_forum_filtrar('populares')" data-filtro="populares" class="forum-chip flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all bg-white text-slate-600 border border-slate-200 hover:border-marca-300 hover:text-marca-600">🔥 Populares</button>
+                <button onclick="discussao_e_forum_filtrar('nao-lidos')" data-filtro="nao-lidos" class="forum-chip flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all bg-white text-slate-600 border border-slate-200 hover:border-marca-300 hover:text-marca-600">Não Lidos</button>
+                <button onclick="discussao_e_forum_filtrar('meus')" data-filtro="meus" class="forum-chip flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all bg-white text-slate-600 border border-slate-200 hover:border-marca-300 hover:text-marca-600">Meus Tópicos</button>
+            </div>
+        </div>
+
+        <!-- Lista de discussões -->
+        <div class="px-4 mt-4 space-y-3" id="forum-lista">
+            <!-- Cards gerados via JS -->
+        </div>
+
+        <!-- Estado vazio -->
+        <div id="forum-vazio" class="hidden px-4 mt-8 text-center">
+            <div class="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-4.272C3.512 14.483 3 13.268 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            </div>
+            <p class="text-slate-500 text-sm font-medium">Nenhuma discussão encontrada</p>
+            <p class="text-slate-400 text-xs mt-1">Tente outra busca ou filtro</p>
+        </div>
+    </div>
+
+    <!-- Modal: Thread de discussão -->
+    <div id="forum-modal-thread" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="discussao_e_forum_fechar_modal()"></div>
+        <div class="absolute inset-x-0 bottom-0 max-h-[90vh] bg-white rounded-t-2xl shadow-2xl overflow-hidden animate-slide-up">
+            <div class="sticky top-0 bg-white z-10 border-b border-slate-100 px-4 pt-2 pb-1">
+                <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto mb-2"></div>
+                <div class="flex items-center justify-between">
+                    <button onclick="discussao_e_forum_fechar_modal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 active:scale-90 transition">
+                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="discussao_e_forum_whatsapp_compartilhar()" class="w-8 h-8 flex items-center justify-center rounded-full bg-green-50 text-green-600 active:scale-90 transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        </button>
+                        <button onclick="discussao_e_forum_notificacao_push()" class="w-8 h-8 flex items-center justify-center rounded-full bg-marca-50 text-marca-600 active:scale-90 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-y-auto p-4 space-y-4" style="max-height: calc(90vh - 70px);" id="forum-modal-conteudo">
+                <!-- Conteúdo do modal preenchido via JS -->
+            </div>
+            <div class="sticky bottom-0 bg-white border-t border-slate-100 px-4 py-3 flex gap-2">
+                <input id="forum-resposta-input" onkeydown="if(event.key==='Enter')discussao_e_forum_responder()" type="text" placeholder="Escreva uma resposta..." class="flex-1 bg-slate-100 rounded-full px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-marca-300 transition">
+                <button onclick="discussao_e_forum_responder()" class="w-10 h-10 bg-marca-600 hover:bg-marca-700 active:scale-95 rounded-full flex items-center justify-center transition-all">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Novo Tópico -->
+    <div id="forum-modal-novo" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="discussao_e_forum_fechar_novo()"></div>
+        <div class="absolute inset-x-0 bottom-0 max-h-[90vh] bg-white rounded-t-2xl shadow-2xl overflow-hidden animate-slide-up">
+            <div class="sticky top-0 bg-white z-10 border-b border-slate-100 px-4 pt-2 pb-1">
+                <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto mb-2"></div>
+                <div class="flex items-center justify-between">
+                    <button onclick="discussao_e_forum_fechar_novo()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 active:scale-90 transition">
+                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                    <h3 class="font-display font-bold text-slate-800 text-sm">Novo Tópico</h3>
+                    <button onclick="discussao_e_forum_publicar()" class="px-4 py-1.5 bg-marca-600 hover:bg-marca-700 active:scale-95 text-white text-xs font-semibold rounded-full transition-all">Publicar</button>
+                </div>
+            </div>
+            <div class="p-4 space-y-4 overflow-y-auto" style="max-height: calc(90vh - 70px);">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Título do tópico</label>
+                    <input id="novo-topico-titulo" type="text" placeholder="Ex: Qual o melhor livro de fantasia nacional?" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-marca-300 transition" maxlength="120">
+                    <span class="text-[10px] text-slate-400 mt-1 block text-right" id="novo-topico-contador">0/120</span>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Categoria</label>
+                    <div class="grid grid-cols-2 gap-2" id="novo-topico-categorias">
+                        <button onclick="discussao_e_forum_sel_cat(this,'spoiler')" data-cat="spoiler" class="cat-btn px-3 py-2.5 rounded-xl text-xs font-medium border-2 border-slate-200 text-slate-600 transition-all text-center">
+                            🔮 Spoiler
+                        </button>
+                        <button onclick="discussao_e_forum_sel_cat(this,'analise')" data-cat="analise" class="cat-btn px-3 py-2.5 rounded-xl text-xs font-medium border-2 border-slate-200 text-slate-600 transition-all text-center">
+                            📝 Análise
+                        </button>
+                        <button onclick="discussao_e_forum_sel_cat(this,'recomendacao')" data-cat="recomendacao" class="cat-btn px-3 py-2.5 rounded-xl text-xs font-medium border-2 border-slate-200 text-slate-600 transition-all text-center">
+                            ⭐ Recomendação
+                        </button>
+                        <button onclick="discussao_e_forum_sel_cat(this,'duvida')" data-cat="duvida" class="cat-btn px-3 py-2.5 rounded-xl text-xs font-medium border-2 border-slate-200 text-slate-600 transition-all text-center">
+                            ❓ Dúvida
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Conteúdo</label>
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="flex gap-1 px-2 py-1.5 bg-slate-50 border-b border-slate-200">
+                            <button onclick="discussao_e_forum_emoji('😀')" class="w-7 h-7 flex items-center justify-center rounded hover:bg-slate-200 active:scale-90 transition text-sm">😀</button>
+                            <button onclick="discussao_e_forum_emoji('📚')" class="w-7 h-7 flex items-center justify-center rounded hover:bg-slate-200 active:scale-90 transition text-sm">📚</button>
+                            <button onclick="discussao_e_forum_emoji('⭐')" class="w-7 h-7 flex items-center justify-center rounded hover:bg-slate-200 active:scale-90 transition text-sm">⭐</button>
+                            <button onclick="discussao_e_forum_emoji('🔥')" class="w-7 h-7 flex items-center justify-center rounded hover:bg-slate-200 active:scale-90 transition text-sm">🔥</button>
+                            <button onclick="discussao_e_forum_emoji('❤️')" class="w-7 h-7 flex items-center justify-center rounded hover:bg-slate-200 active:scale-90 transition text-sm">❤️</button>
+                            <button onclick="discussao_e_forum_emoji('💡')" class="w-7 h-7 flex items-center justify-center rounded hover:bg-slate-200 active:scale-90 transition text-sm">💡</button>
+                            <button onclick="discussao_e_forum_emoji('👏')" class="w-7 h-7 flex items-center justify-center rounded hover:bg-slate-200 active:scale-90 transition text-sm">👏</button>
+                            <button onclick="discussao_e_forum_emoji('🤔')" class="w-7 h-7 flex items-center justify-center rounded hover:bg-slate-200 active:scale-90 transition text-sm">🤔</button>
+                        </div>
+                        <textarea id="novo-topico-texto" rows="4" placeholder="Compartilhe suas ideias, análises ou perguntas sobre livros..." class="w-full px-4 py-3 text-sm resize-none focus:outline-none"></textarea>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="novo-topico-notif" class="w-4 h-4 rounded border-slate-300 text-marca-600 focus:ring-marca-500">
+                    <label for="novo-topico-notif" class="text-xs text-slate-600">Receber notificações de respostas</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    const dados = [
+        {
+            id: 1, titulo: '"O Alquimista" — qual a sua passagem favorita?',
+            autor: 'Marina Santos', iniciais: 'MS', corAvatar: 'bg-emerald-500',
+            categoria: 'recomendacao', badge: 'Discussão Ativa', badgeCor: 'bg-amber-100 text-amber-700',
+            respostas: 47, curtidas: 128, tempo: 'há 3h',
+            lido: false, hot: true, meuTopico: false,
+            corpo: 'Acabei de reler O Alquimista pela terceira vez e a passagem sobre as pirâmides sempre me emociona. Qual trecho do livro mais marcou vocês?',
+            comentarios: [
+                { autor: 'Carlos Mendes', iniciais: 'CM', corAvatar: 'bg-blue-500', texto: 'A parte do deserto é fascinante! A forma como o autor descreve a jornada interior é impecável.', tempo: 'há 2h', curtidas: 23 },
+                { autor: 'Ana Beatriz', iniciais: 'AB', corAvatar: 'bg-pink-500', texto: 'Para mim foi o final com o tesouro de volta ao início. Tão poético!', tempo: 'há 1h', curtidas: 15 },
+                { autor: 'Marina Santos', iniciais: 'MS', corAvatar: 'bg-emerald-500', texto: 'Exatamente, Ana! A lição de que o tesouro estava o tempo todo ali é maravilhosa.', tempo: 'há 45min', curtidas: 8 }
+            ]
+        },
+        {
+            id: 2, titulo: 'ALERTA DE SPOILER: Final de "A Revolução dos Bichos"',
+            autor: 'Pedro Henrique', iniciais: 'PH', corAvatar: 'bg-red-500',
+            categoria: 'spoiler', badge: 'Hot', badgeCor: 'bg-red-100 text-red-700',
+            respostas: 89, curtidas: 312, tempo: 'há 1h',
+            lido: true, hot: true, meuTopico: false,
+            corpo: 'A cena final onde os porcos andam de duas pernas e se confundem com os humanos... Achei genial e assustadora ao mesmo tempo. Alguém mais teve essa reação?',
+            comentarios: [
+                { autor: 'Fernanda Lima', iniciais: 'FL', corAvatar: 'bg-violet-500', texto: 'SPOILER na tag, por favor! Mas sim, é uma das melhores conclusões da literatura.', tempo: 'há 50min', curtidas: 18 },
+                { autor: 'Rodrigo Costa', iniciais: 'RC', corAvatar: 'bg-orange-500', texto: 'Orwell era um gênio. Cada releitura revela algo novo.', tempo: 'há 30min', curtidas: 12 }
+            ]
+        },
+        {
+            id: 3, titulo: 'Análise: A escrita de Clarice Lispector — uma jornada introspectiva',
+            autor: 'Julia Ferreira', iniciais: 'JF', corAvatar: 'bg-purple-500',
+            categoria: 'analise', badge: 'Resolvido', badgeCor: 'bg-emerald-100 text-emerald-700',
+            respostas: 34, curtidas: 195, tempo: 'há 5h',
+            lido: false, hot: false, meuTopico: true,
+            corpo: 'Acabei de ler "A Hora da Estrela" e estou processando a intensidade da obra. A forma como Clarice trabalha a identidade de Macabéa é de uma delicadeza avassaladora. Quem mais mergulhou na obra dela?',
+            comentarios: [
+                { autor: 'Lucas Almeida', iniciais: 'LA', corAvatar: 'bg-teal-500', texto: '"Hora da Estrela" é meu livro favorito dela. O monólogo final é de arrepiar.', tempo: 'há 4h', curtidas: 31 },
+                { autor: 'Beatriz Souza', iniciais: 'BS', corAvatar: 'bg-cyan-500', texto: 'Recomendo "Perto do Coração Selvagem" também. A sua primeira obra é fascinante.', tempo: 'há 3h', curtidas: 19 },
+                { autor: 'Julia Ferreira', iniciais: 'JF', corAvatar: 'bg-purple-500', texto: 'Já coloquei na minha lista! Obrigada pela dica, pessoal. 😊', tempo: 'há 2h', curtidas: 5 }
+            ]
+        },
+        {
+            id: 4, titulo: 'Dúvida: Qual edição de "Dom Casmurro" comprar?',
+            autor: 'Thiago Oliveira', iniciais: 'TO', corAvatar: 'bg-indigo-500',
+            categoria: 'duvida', badge: 'Discussão Ativa', badgeCor: 'bg-amber-100 text-amber-700',
+            respostas: 23, curtidas: 45, tempo: 'há 8h',
+            lido: true, hot: false, meuTopico: false,
+            corpo: 'Estou procurando uma edição de bolso de Dom Casmurro mas tem tantas opções. Alguém recomenda qual editora tem a melhor tradução e notas?',
+            comentarios: [
+                { autor: 'Camila Rocha', iniciais: 'CR', corAvatar: 'bg-rose-500', texto: 'A da Companhia das Letras é ótima! Boa tradução e orelhas bem explicativas.', tempo: 'há 7h', curtidas: 14 },
+                { autor: 'Thiago Oliveira', iniciais: 'TO', corAvatar: 'bg-indigo-500', texto: 'Perfeito, vou verificar. Obrigado, Camila!', tempo: 'há 6h', curtidas: 2 }
+            ]
+        },
+        {
+            id: 5, titulo: 'Recomendação: 5 livros de ficção científica nacional imperdíveis',
+            autor: 'Rafael Nascimento', iniciais: 'RN', corAvatar: 'bg-sky-500',
+            categoria: 'recomendacao', badge: 'Discussão Ativa', badgeCor: 'bg-amber-100 text-amber-700',
+            respostas: 67, curtidas: 289, tempo: 'há 12h',
+            lido: false, hot: true, meuTopico: false,
+            corpo: 'A ficção científica brasileira está em alta! Listei 5 títulos que todo fã do gênero precisa ler: "A Sombra do Vento", "Barro Blanco", "O Incidente", "Karnak" e "Galáxia de Papel".',
+            comentarios: [
+                { autor: 'Patricia Mello', iniciais: 'PM', corAvatar: 'bg-fuchsia-500', texto: 'Karnak do Bukowski é incrível! A versão brasileira editada pela Autêntica é muito boa.', tempo: 'há 10h', curtidas: 22 },
+                { autor: 'Eduardo Pires', iniciais: 'EP', corAvatar: 'bg-lime-600', texto: 'Falta "Os Homens que Não Amavam as Mulheres" — ah espera, esse é sueco 😄 Mas ótima lista!', tempo: 'há 9h', curtidas: 17 },
+                { autor: 'Rafael Nascimento', iniciais: 'RN', corAvatar: 'bg-sky-500', texto: 'Haha boa, Eduardo! Vou atualizar a lista. Alguma sugestão?', tempo: 'há 8h', curtidas: 6 }
+            ]
+        },
+        {
+            id: 6, titulo: 'SPOILER: O Grande Gatsby — afinal, Gatsby era culpado?',
+            autor: 'Isabela Martins', iniciais: 'IM', corAvatar: 'bg-amber-500',
+            categoria: 'spoiler', badge: 'Hot', badgeCor: 'bg-red-100 text-red-700',
+            respostas: 56, curtidas: 198, tempo: 'há 1d',
+            lido: false, hot: true, meuTopico: false,
+            corpo: 'Depois de reler Fitzgerald, fico sempre dividida. Wilson matou Gatsby por engano, mas Gatsby construiu toda uma persona falsa. Ele era de fato culpado por Myrtle?',
+            comentarios: [
+                { autor: 'André Lima', iniciais: 'AL', corAvatar: 'bg-slate-600', texto: 'Fitzgerald deixa essa ambiguidade de propósito. Gatsby é vítima e arquiteto do próprio destino ao mesmo tempo.', tempo: 'há 22h', curtidas: 27 },
+                { autor: 'Sofia Andrade', iniciais: 'SA', corAvatar: 'bg-yellow-600', texto: 'Eu sempre achei que o verdadeiro culpado é Tom Buchanan. Ele plantou a semente.', tempo: 'há 20h', curtidas: 20 }
+            ]
+        },
+        {
+            id: 7, titulo: 'Avaliação: "Sapiens" — vale a pena ler em 2025?',
+            autor: 'Diego Cunha', iniciais: 'DC', corAvatar: 'bg-teal-600',
+            categoria: 'analise', badge: 'Resolvido', badgeCor: 'bg-emerald-100 text-emerald-700',
+            respostas: 41, curtidas: 167, tempo: 'há 2d',
+            lido: true, hot: false, meuTopico: true,
+            corpo: 'Com tantos livros saindo sobre história humana, "Sapiens" de Harari continua relevante? Li em 2020 e queria saber se a versão atualizada adicionou algo substancial.',
+            comentarios: [
+                { autor: 'Gustavo Ribeiro', iniciais: 'GR', corAvatar: 'bg-indigo-600', texto: 'A versão ilustrada é surpreendente. Harari continua sendo referência apesar das críticas.', tempo: 'há 1d', curtidas: 15 }
+            ]
+        },
+        {
+            id: 8, titulo: 'Livros que todo amante de café deveria ler ☕📖',
+            autor: 'Camila Rocha', iniciais: 'CR', corAvatar: 'bg-rose-500',
+            categoria: 'recomendacao', badge: 'Discussão Ativa', badgeCor: 'bg-amber-100 text-amber-700',
+            respostas: 29, curtidas: 94, tempo: 'há 3d',
+            lido: false, hot: false, meuTopico: false,
+            corpo: 'Reuni alguns livros perfeitos para ler com uma xícara na mão: "O Café em Verso e Prosa", "A Doçura do Café" e "História do Café no Brasil". Quem tem outras sugestões?',
+            comentarios: [
+                { autor: 'Luana Pinto', iniciais: 'LP', corAvatar: 'bg-amber-400', texto: '"O Café do Cais" é uma obra prima do Nelson Rodrigues sobre o café da zona portuária do Rio!', tempo: 'há 2d', curtidas: 11 }
+            ]
+        }
+    ];
+
+    let filtroAtual = 'todos';
+    let termoBusca = '';
+    let topicoAberto = null;
+
+    function discussao_e_forum_init() {
+        const el = document.getElementById('forum-lista');
+        if (!el) return;
+        const input = document.getElementById('forum-busca');
+        if (input) input.addEventListener('input', e => discussao_e_forum_buscar(e.target.value));
+        const contador = document.getElementById('novo-topico-contador');
+        const tituloInput = document.getElementById('novo-topico-titulo');
+        if (contador && tituloInput) {
+            tituloInput.addEventListener('input', e => { contador.textContent = e.target.value.length + '/120'; });
+        }
+        discussao_e_forum_renderizar();
+    }
+
+    function discussao_e_forum_buscar(valor) {
+        termoBusca = valor.toLowerCase().trim();
+        discussao_e_forum_renderizar();
+    }
+
+    function discussao_e_forum_filtrar(filtro) {
+        filtroAtual = filtro;
+        document.querySelectorAll('.forum-chip').forEach(c => {
+            if (c.dataset.filtro === filtro) {
+                c.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+                c.classList.add('bg-marca-600', 'text-white');
+            } else {
+                c.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+                c.classList.remove('bg-marca-600', 'text-white');
+            }
+        });
+        discussao_e_forum_renderizar();
+    }
+
+    function discussao_e_forum_filtrados() {
+        let lista = dados;
+        if (filtroAtual === 'populares') lista = lista.filter(d => d.hot);
+        if (filtroAtual === 'nao-lidos') lista = lista.filter(d => !d.lido);
+        if (filtroAtual === 'meus') lista = lista.filter(d => d.meuTopico);
+        if (termoBusca) {
+            lista = lista.filter(d => d.titulo.toLowerCase().includes(termoBusca) || d.corpo.toLowerCase().includes(termoBusca) || d.autor.toLowerCase().includes(termoBusca));
+        }
+        return lista;
+    }
+
+    function discussao_e_forum_renderizar() {
+        const el = document.getElementById('forum-lista');
+        const vazio = document.getElementById('forum-vazio');
+        if (!el) return;
+        const lista = discussao_e_forum_filtrados();
+        if (lista.length === 0) {
+            el.innerHTML = '';
+            vazio.classList.remove('hidden');
+            return;
+        }
+        vazio.classList.add('hidden');
+        el.innerHTML = lista.map(d => {
+            const catLabel = { spoiler: '🔮 Spoiler', analise: '📝 Análise', recomendacao: '⭐ Recomendação', duvida: '❓ Dúvida' }[d.categoria];
+            const catBg = { spoiler: 'bg-purple-100 text-purple-700', analise: 'bg-blue-100 text-blue-700', recomendacao: 'bg-amber-100 text-amber-700', duvida: 'bg-teal-100 text-teal-700' }[d.categoria];
+            const naoLidoDot = !d.lido ? '<span class="w-2 h-2 rounded-full bg-marca-500 flex-shrink-0"></span>' : '';
+            const hotIcon = d.hot ? '<svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/><path d="M9.879 8.464A4 4 0 0115.5 13"/></svg>' : '';
+            return `
+            <div onclick="discussao_e_forum_abrir_thread(${d.id})" class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 active:scale-[0.98] transition-all cursor-pointer hover:shadow-md">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-full ${d.corAvatar} flex items-center justify-center flex-shrink-0 text-white text-xs font-bold">${d.iniciais}</div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-1.5 mb-1">
+                            ${naoLidoDot}
+                            <h3 class="font-display font-bold text-slate-800 text-sm leading-snug line-clamp-2">${d.titulo}</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-2">${d.autor} <span class="text-slate-300">·</span> ${d.tempo}</p>
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold ${catBg}">${catLabel}</span>
+                            <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold ${d.badgeCor}">${d.badge}</span>
+                            ${hotIcon}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 mt-3 pt-3 border-t border-slate-50">
+                    <span class="flex items-center gap-1 text-xs text-slate-400">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-4.272C3.512 14.483 3 13.268 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                        ${d.respostas} respostas
+                    </span>
+                    <span class="flex items-center gap-1 text-xs text-slate-400">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                        ${d.curtidas}
+                    </span>
+                    <span class="flex-1"></span>
+                    <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function discussao_e_forum_abrir_thread(id) {
+        const t = dados.find(d => d.id === id);
+        if (!t) return;
+        t.lido = true;
+        topicoAberto = t;
+        const modal = document.getElementById('forum-modal-thread');
+        const conteudo = document.getElementById('forum-modal-conteudo');
+        const catLabel = { spoiler: '🔮 Spoiler', analise: '📝 Análise', recomendacao: '⭐ Recomendação', duvida: '❓ Dúvida' }[t.categoria];
+        const catBg = { spoiler: 'bg-purple-100 text-purple-700', analise: 'bg-blue-100 text-blue-700', recomendacao: 'bg-amber-100 text-amber-700', duvida: 'bg-teal-100 text-teal-700' }[t.categoria];
+        const corHeader = t.corAvatar.replace('bg-', 'bg-gradient-to-br from-').replace('-500', '-400 to-').replace('-500', '-600');
+        conteudo.innerHTML = `
+            <!-- Post principal -->
+            <div class="flex gap-3">
+                <div class="w-10 h-10 rounded-full ${t.corAvatar} flex items-center justify-center flex-shrink-0 text-white text-sm font-bold">${t.iniciais}</div>
+                <div class="flex-1">
+                    <div class="flex items-center gap-2">
+                        <span class="font-display font-bold text-slate-800 text-sm">${t.autor}</span>
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold ${catBg}">${catLabel}</span>
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold ${t.badgeCor}">${t.badge}</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-0.5">${t.tempo}</p>
+                    <h2 class="font-display font-bold text-slate-900 mt-2 leading-snug">${t.titulo}</h2>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">${t.corpo}</p>
+                    <div class="flex items-center gap-3 mt-3">
+                        <button onclick="discussao_e_forum_curtir(${t.id}, this)" class="flex items-center gap-1.5 text-xs text-slate-500 hover:text-red-500 active:scale-95 transition group">
+                            <svg class="w-4 h-4 group-hover:fill-red-100 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                            <span class="curtida-texto">${t.curtidas}</span>
+                        </button>
+                        <span class="flex items-center gap-1.5 text-xs text-slate-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-4.272C3.512 14.483 3 13.268 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                            ${t.respostas} respostas
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-slate-100 my-4"></div>
+            <!-- Comentários -->
+            <div class="space-y-4">
+                ${t.comentarios.map((c, i) => `
+                    <div class="flex gap-3 ${i > 0 ? 'ml-12 pl-4 border-l-2 border-slate-100' : ''}">
+                        <div class="w-8 h-8 rounded-full ${c.corAvatar} flex items-center justify-center flex-shrink-0 text-white text-[10px] font-bold">${c.iniciais}</div>
+                        <div class="flex-1 bg-slate-50 rounded-xl p-3">
+                            <div class="flex items-center gap-2">
+                                <span class="font-semibold text-slate-700 text-xs">${c.autor}</span>
+                                <span class="text-[10px] text-slate-400">${c.tempo}</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">${c.texto}</p>
+                            <button onclick="discussao_e_forum_curtir_comentario(this, ${c.curtidas})" class="flex items-center gap-1 mt-2 text-[10px] text-slate-400 hover:text-red-500 active:scale-90 transition">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                <span class="curtida-c-texto">${c.curtidas}</span>
+                            </button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            <!-- Ações de compartilhamento -->
+            <div class="mt-4 pt-4 border-t border-slate-100">
+                <p class="text-xs font-semibold text-slate-500 mb-2">Compartilhar discussão</p>
+                <div class="flex gap-2">
+                    <button onclick="discussao_e_forum_whatsapp_compartilhar()" class="flex-1 py-2 bg-green-50 hover:bg-green-100 active:scale-95 text-green-700 text-xs font-semibold rounded-xl transition flex items-center justify-center gap-1.5">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp
+                    </button>
+                    <button onclick="discussao_e_forum_notificacao_push()" class="flex-1 py-2 bg-marca-50 hover:bg-marca-100 active:scale-95 text-marca-700 text-xs font-semibold rounded-xl transition flex items-center justify-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        Alertas
+                    </button>
+                </div>
+            </div>
+        `;
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function discussao_e_forum_fechar_modal() {
+        const modal = document.getElementById('forum-modal-thread');
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+        discussao_e_forum_renderizar();
+    }
+
+    function discussao_e_forum_curtir(id, btn) {
+        const t = dados.find(d => d.id === id);
+        if (!t) return;
+        t.curtidas++;
+        const span = btn.querySelector('.curtida-texto');
+        if (span) span.textContent = t.curtidas;
+        btn.classList.add('text-red-500');
+        btn.querySelector('svg').classList.add('fill-red-500', 'text-red-500');
+        toast('Curtida registrada! ❤️', 'ok');
+    }
+
+    function discussao_e_forum_curtir_comentario(btn, original) {
+        const span = btn.querySelector('.curtida-c-texto');
+        if (!span) return;
+        if (btn.dataset.curtido === 'true') {
+            span.textContent = original;
+            btn.dataset.curtido = 'false';
+            btn.classList.remove('text-red-500');
+            return;
+        }
+        span.textContent = original + 1;
+        btn.dataset.curtido = 'true';
+        btn.classList.add('text-red-500');
+        toast('Curtida registrada!', 'ok');
+    }
+
+    function discussao_e_forum_responder() {
+        const input = document.getElementById('forum-resposta-input');
+        if (!input || !input.value.trim()) return;
+        if (!topicoAberto) return;
+        topicoAberto.comentarios.push({
+            autor: 'Você', iniciais: 'EU', corAvatar: 'bg-marca-500',
+            texto: input.value.trim(), tempo: 'agora mesmo', curtidas: 0
+        });
+        topicoAberto.respostas++;
+        input.value = '';
+        discussao_e_forum_abrir_thread(topicoAberto.id);
+        toast('Resposta publicada com sucesso!', 'ok');
+        const notif = document.getElementById('forum-ind-ativos');
+        if (notif) notif.textContent = parseInt(notif.textContent) + 1;
+    }
+
+    function discussao_e_forum_novo_topico() {
+        const modal = document.getElementById('forum-modal-novo');
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function discussao_e_forum_fechar_novo() {
+        const modal = document.getElementById('forum-modal-novo');
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+        document.getElementById('novo-topico-titulo').value = '';
+        document.getElementById('novo-topico-texto').value = '';
+        document.getElementById('novo-topico-contador').textContent = '0/120';
+        document.getElementById('novo-topico-notif').checked = false;
+        document.querySelectorAll('.cat-btn').forEach(b => {
+            b.classList.remove('border-marca-500', 'bg-marca-50', 'text-marca-700');
+            b.classList.add('border-slate-200', 'text-slate-600');
+        });
+    }
+
+    let catSelecionada = null;
+    function discussao_e_forum_sel_cat(btn, cat) {
+        catSelecionada = cat;
+        document.querySelectorAll('.cat-btn').forEach(b => {
+            b.classList.remove('border-marca-500', 'bg-marca-50', 'text-marca-700');
+            b.classList.add('border-slate-200', 'text-slate-600');
+        });
+        btn.classList.remove('border-slate-200', 'text-slate-600');
+        btn.classList.add('border-marca-500', 'bg-marca-50', 'text-marca-700');
+    }
+
+    function discussao_e_forum_emoji(e) {
+        const ta = document.getElementById('novo-topico-texto');
+        if (!ta) return;
+        ta.value += e;
+        ta.focus();
+    }
+
+    function discussao_e_forum_publicar() {
+        const titulo = document.getElementById('novo-topico-titulo').value.trim();
+        const texto = document.getElementById('novo-topico-texto').value.trim();
+        if (!titulo) { toast('Digite um título para o tópico', 'erro'); return; }
+        if (!catSelecionada) { toast('Selecione uma categoria', 'erro'); return; }
+        if (!texto) { toast('Escreva o conteúdo do tópico', 'erro'); return; }
+        const cores = ['bg-rose-500', 'bg-sky-500', 'bg-fuchsia-500', 'bg-lime-600', 'bg-orange-500'];
+        const novo = {
+            id: Date.now(), titulo: titulo, autor: 'Você', iniciais: 'EU',
+            corAvatar: 'bg-marca-500', categoria: catSelecionada,
+            badge: 'Discussão Ativa', badgeCor: 'bg-amber-100 text-amber-700',
+            respostas: 0, curtidas: 0, tempo: 'agora mesmo',
+            lido: true, hot: false, meuTopico: true, corpo: texto,
+            comentarios: []
+        };
+        dados.unshift(novo);
+        catSelecionada = null;
+        discussao_e_forum_fechar_novo();
+        filtroAtual = 'meus';
+        discussao_e_forum_filtrar('meus');
+        toast('Tópico publicado com sucesso! 🎉', 'ok');
+        const notif = document.getElementById('forum-ind-ativos');
+        if (notif) notif.textContent = parseInt(notif.textContent) + 1;
+    }
+
+    function discussao_e_forum_whatsapp_compartilhar() {
+        if (!topicoAberto) return;
+        const texto = `📚 Discussão no BookStore: "${topicoAberto.titulo}" — participe da conversa!`;
+        const url = `https://wa.me/?text=${encodeURIComponent(texto)}`;
+        toast('Compartilhando no WhatsApp...', 'info');
+        setTimeout(() => { window.open(url, '_blank'); }, 500);
+    }
+
+    function discussao_e_forum_notificacao_push() {
+        toast('Alertas ativados! Você receberá notificações quando alguém responder.', 'ok');
+    }
+
+    // Animação slide up
+    const style = document.createElement('style');
+    style.textContent = '@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}.animate-slide-up{animation:slideUp .3s ease-out}';
+    document.head.appendChild(style);
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', discussao_e_forum_init);
+    } else {
+        discussao_e_forum_init();
+    }
+})();
+</script>
+
     <!-- TELAS -->
         </main>
 
