@@ -2597,6 +2597,81 @@
 })();
 </script>
 
+    <section data-tela="comentarios-e-avaliacoes" class="hidden">
+      <div class="px-4 py-4 space-y-4">
+        <div class="flex items-center gap-3 mb-2">
+          <button onclick="mostrarTela('detalhe-do-ebook')" class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 active:scale-95 transition-all text-gray-700">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <div>
+            <h2 class="font-display text-xl font-bold text-marca-900">Comentários e Avaliações</h2>
+            <p class="text-sm text-gray-500">O Despertar dos Deuses — Marina Torres</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <div class="flex items-center gap-5">
+            <div class="text-center shrink-0">
+              <span class="font-display text-5xl font-extrabold text-marca-900">4.7</span>
+              <div class="flex gap-0.5 mt-1 justify-center" id="estrelas-media"></div>
+              <p class="text-xs text-gray-500 mt-1">89 avaliações</p>
+            </div>
+            <div class="flex-1 space-y-1.5" id="barras-distribuicao"></div>
+          </div>
+        </div>
+
+        <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <button onclick="comentarios_e_avaliacoes_setFiltro('recentes')" data-filtro="recentes" class="filtro-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-marca-900 text-white transition-all active:scale-95">Mais Recentes</button>
+          <button onclick="comentarios_e_avaliacoes_setFiltro('uteis')" data-filtro="uteis" class="filtro-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all active:scale-95">Mais Úteis</button>
+          <button onclick="comentarios_e_avaliacoes_setFiltro('fotos')" data-filtro="fotos" class="filtro-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all active:scale-95">Com Fotos</button>
+          <button onclick="comentarios_e_avaliacoes_toggleVerificadas()" id="btn-verificadas" class="filtro-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all active:scale-95 flex items-center gap-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            Verificadas
+          </button>
+        </div>
+
+        <div id="estado-vazio" class="hidden text-center py-10">
+          <svg class="w-16 h-16 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-3.3-.558L3 21l1.338-3.224A8.97 8.97 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          <p class="text-gray-500 font-medium">Nenhuma avaliação encontrada</p>
+          <p class="text-sm text-gray-400 mt-1">Tente ajustar os filtros</p>
+        </div>
+
+        <div id="lista-avaliacoes" class="space-y-3"></div>
+      </div>
+
+      <div class="bg-white border-t border-gray-100 p-4">
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+          <h3 class="font-display font-bold text-marca-900 text-base mb-3">Deixe sua avaliação</h3>
+          <p class="text-sm text-gray-500 mb-3">Sua opinião ajuda outros leitores</p>
+          <div class="mb-3">
+            <label class="text-xs font-medium text-gray-600 mb-1 block">Sua nota</label>
+            <div id="seletor-estrelas" class="flex gap-1.5"></div>
+          </div>
+          <div class="mb-3">
+            <label class="text-xs font-medium text-gray-600 mb-1 block">Comentário</label>
+            <textarea id="campo-comentario" rows="3" placeholder="Conte sua experiência com este ebook..." class="w-full rounded-xl border border-gray-200 p-3 text-sm focus:ring-2 focus:ring-marca-500 focus:border-transparent outline-none resize-none transition-all"></textarea>
+          </div>
+          <div class="mb-4">
+            <label class="text-xs font-medium text-gray-600 mb-1 block">Adicionar foto (opcional)</label>
+            <button onclick="document.getElementById('upload-foto').click()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 border-dashed border-gray-300 text-gray-500 hover:border-marca-400 hover:text-marca-600 transition-all active:scale-95 w-full justify-center">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span class="text-sm font-medium">Toque para enviar foto</span>
+            </button>
+            <input type="file" id="upload-foto" accept="image/*" class="hidden" onchange="comentarios_e_avaliacoes_uploadFoto(this)">
+            <div id="preview-foto" class="hidden mt-2 relative inline-block">
+              <div class="w-20 h-20 rounded-lg bg-marca-100 flex items-center justify-center overflow-hidden">
+                <svg class="w-10 h-10 text-marca-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <button onclick="comentarios_e_avaliacoes_removerFoto()" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">×</button>
+            </div>
+          </div>
+          <button onclick="comentarios_e_avaliacoes_enviar()" id="btn-enviar-avaliacao" class="w-full bg-marca-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-marca-700 active:scale-95 transition-all shadow-md shadow-marca-200">
+            Publicar Avaliação
+          </button>
+        </div>
+      </div>
+    </section>
+
     <!-- TELAS -->
         </main>
 
