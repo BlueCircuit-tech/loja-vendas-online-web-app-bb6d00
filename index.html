@@ -799,6 +799,569 @@
 })();
 </script>
 
+    <section data-tela="pagamento-e-checkout" class="hidden">
+    <style>
+        .payment-option.selected{ring:2px;border-color:#2563EB;background-color:#EFF6FF}
+        .step-fade{animation:fadeSlideIn .35s ease-out}
+        @keyframes fadeSlideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes spinLoader{to{transform:rotate(360deg)}}
+        .spinner{border:3px solid #E2E8F0;border-top-color:#2563EB;border-radius:50%;width:28px;height:28px;animation:spinLoader .7s linear infinite}
+        .checkmark-circle{stroke-dasharray:166;stroke-dashoffset:166;animation:checkStroke .5s ease-in-out forwards}
+        @keyframes checkStroke{to{stroke-dashoffset:0}}
+        .checkmark-check{stroke-dasharray:48;stroke-dashoffset:48;animation:checkStroke .3s .4s ease-in-out forwards}
+        .qr-cell{background:#fff}
+        .qr-dark{background:#1E3A5F}
+        .btn-active:active{transform:scale(0.96)}
+    </style>
+
+    <!-- STEP 1: REVIEW + PAYMENT SELECTION -->
+    <div id="pg-step1" class="step-fade p-4 space-y-3">
+        <!-- Header -->
+        <div class="mb-1">
+            <p class="text-xs font-medium text-marca-500 tracking-wide uppercase font-body">Finalizar compra</p>
+            <h2 class="text-xl font-bold text-marca-900 mt-0.5 font-display">Pagamento</h2>
+            <p class="text-xs text-gray-500 mt-0.5 font-body">Confira os itens e escolha como pagar</p>
+        </div>
+
+        <!-- Order Review Card -->
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="bg-marca-50 px-4 py-2.5 flex items-center justify-between">
+                <p class="text-xs font-semibold text-marca-700 font-display">📋 Pedido #20250115</p>
+                <button onclick="pagamento_e_checkout_editCart()" class="text-xs text-marca-500 font-medium hover:text-marca-700 btn-active transition-colors font-body">Editar</button>
+            </div>
+            <div class="divide-y divide-gray-50">
+                <div class="p-3.5 flex gap-3 items-start">
+                    <div class="w-14 h-20 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex-shrink-0 flex items-center justify-center shadow-sm relative">
+                        <svg class="w-6 h-6 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                        <span class="absolute -top-1 -right-1 bg-red-400 text-white text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center">E</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-gray-800 truncate font-display">O Pequeno Príncipe</p>
+                        <p class="text-xs text-gray-500 mt-0.5 font-body">Antoine de Saint-Exupéry</p>
+                        <p class="text-xs text-gray-400 mt-0.5 font-body">Ebook • PDF + EPUB</p>
+                        <div class="flex items-center justify-between mt-1.5">
+                            <span class="text-xs text-gray-400 font-body">Qtd: 1</span>
+                            <span class="text-sm font-semibold text-marca-900 font-body">R$ 19,90</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3.5 flex gap-3 items-start">
+                    <div class="w-14 h-20 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex-shrink-0 flex items-center justify-center shadow-sm relative">
+                        <svg class="w-6 h-6 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                        <span class="absolute -top-1 -right-1 bg-amber-400 text-white text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center">E</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-gray-800 truncate font-display">Mindset Milionário</p>
+                        <p class="text-xs text-gray-500 mt-0.5 font-body">T. Harv Eker</p>
+                        <p class="text-xs text-gray-400 mt-0.5 font-body">Ebook • PDF</p>
+                        <div class="flex items-center justify-between mt-1.5">
+                            <span class="text-xs text-gray-400 font-body">Qtd: 1</span>
+                            <span class="text-sm font-semibold text-marca-900 font-body">R$ 29,90</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3.5 flex gap-3 items-start">
+                    <div class="w-14 h-20 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex-shrink-0 flex items-center justify-center shadow-sm relative">
+                        <svg class="w-6 h-6 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                        <span class="absolute -top-1 -right-1 bg-amber-400 text-white text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center">E</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-gray-800 truncate font-display">Sapiens</p>
+                        <p class="text-xs text-gray-500 mt-0.5 font-body">Yuval Noah Harari</p>
+                        <p class="text-xs text-gray-400 mt-0.5 font-body">Ebook • EPUB + MOBI</p>
+                        <div class="flex items-center justify-between mt-1.5">
+                            <span class="text-xs text-gray-400 font-body">Qtd: 1</span>
+                            <span class="text-sm font-semibold text-marca-900 font-body">R$ 34,90</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="px-4 py-2.5 bg-gray-50 space-y-1 text-xs font-body">
+                <div class="flex justify-between"><span class="text-gray-500">Subtotal (3 itens)</span><span class="text-gray-700 font-medium">R$ 84,70</span></div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-500">Desconto cupom <span class="text-marca-600 font-medium">PRIMEIRA10</span></span>
+                    <span class="text-emerald-600 font-semibold">− R$ 8,47</span>
+                </div>
+                <div class="flex justify-between"><span class="text-gray-500">Frete</span><span class="text-emerald-600 font-medium">Grátis</span></div>
+                <div class="border-t border-gray-200 pt-1.5 mt-1.5 flex justify-between items-baseline">
+                    <span class="text-sm font-semibold text-gray-800 font-display">Total</span>
+                    <span class="text-xl font-bold text-marca-900 font-display">R$ 76,23</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Discount Input -->
+        <button onclick="pagamento_e_checkout_openDiscount()" class="w-full bg-white rounded-xl border border-dashed border-gray-300 p-3 flex items-center justify-between btn-active transition-colors hover:border-marca-300">
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-marca-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                <span class="text-xs text-gray-500 font-body">Cupom de desconto aplicado</span>
+            </div>
+            <span class="text-xs font-semibold text-marca-600 font-body">PRIMEIRA10</span>
+        </button>
+
+        <!-- Payment Method Selection -->
+        <div>
+            <p class="text-sm font-semibold text-gray-800 mb-2 font-display">Forma de pagamento</p>
+            <div class="space-y-2.5">
+                <!-- Pix Option -->
+                <div id="pg-pix-opt" onclick="pagamento_e_checkout_select('pix')" class="payment-option bg-white rounded-xl border-2 border-marca-500 p-3.5 cursor-pointer transition-all btn-active relative">
+                    <div class="absolute top-2.5 right-2.5">
+                        <span class="badge bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full font-body">⚡ Aprovação em 30 segundos</span>
+                    </div>
+                    <div class="flex items-center gap-3 pr-24">
+                        <div class="w-11 h-11 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-emerald-600" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.339c0-2.25 1.83-4.08 4.08-4.08H9l1.5 1.5h6l1.5-1.5h3.42c2.25 0 4.08 1.83 4.08 4.08v.162c0 2.25-1.83 4.08-4.08 4.08H12l-1.5-1.5H4.5L3 12.42c-2.25 0-4.08-1.83-4.08-4.08V8.34zm2.43 0c0-1.08.87-1.95 1.95-1.95h.48c.33 0 .6.27.6.6s-.27.6-.6.6h-.48a.36.36 0 01-.36-.36v-.87a.36.36 0 01.36-.36h.87a.36.36 0 110 .72h-.48c-.33 0-.6.27-.6.6s.27.6.6.6h.48c1.08 0 1.95.87 1.95 1.95v.87a1.95 1.95 0 01-1.95 1.95h-.87a1.95 1.95 0 01-1.95-1.95v-.87a.36.36 0 01.36-.36h.48c.33 0 .6-.27.6-.6s-.27-.6-.6-.6h-.48a.36.36 0 01-.36.36v.87a.36.36 0 01-.36.36H3.93zm5.13.03l1.35-1.35h4.14l1.35 1.35h2.13l-2.7-2.7a.9.9 0 01.27-1.47.9.9 0 011.47.27l3.3 3.3a.9.9 0 010 1.26l-3.3 3.3a.9.9 0 01-1.47-.27.9.9 0 01.27-1.47l2.7-2.7H9.96l-1.35-1.35H3.93l2.7 2.7a.9.9 0 01.27 1.47.9.9 0 01-1.47.27l-3.3-3.3a.9.9 0 010-1.26l3.3-3.3a.9.9 0 011.47.27.9.9 0 01-.27 1.47L6.57 8.37h2.13l1.35-1.35.03.03zm7.47 1.29a.36.36 0 01.36.36v.87a.36.36 0 01-.36.36h-.87a.36.36 0 01-.36-.36v-.87a.36.36 0 01.36-.36h.87zm2.67 0c0-1.08.87-1.95 1.95-1.95h.48c.33 0 .6.27.6.6s-.27.6-.6.6h-.48a.36.36 0 01-.36-.36v-.87a.36.36 0 01.36-.36h.87a.36.36 0 110 .72h-.48c-.33 0-.6.27-.6.6s.27.6.6.6h.48c1.08 0 1.95.87 1.95 1.95v.87a1.95 1.95 0 01-1.95 1.95h-.87a1.95 1.95 0 01-1.95-1.95v-.87a.36.36 0 01.36-.36h.48c.33 0 .6-.27.6-.6s-.27-.6-.6-.6h-.48a.36.36 0 01-.36.36v.87a.36.36 0 01-.36.36h.87z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800 font-display">Pix</p>
+                            <p class="text-[11px] text-gray-500 font-body">Aprovação instantânea</p>
+                        </div>
+                        <div id="pg-pix-radio" class="ml-auto w-5 h-5 rounded-full border-2 border-marca-500 bg-marca-500 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Option -->
+                <div id="pg-card-opt" onclick="pagamento_e_checkout_select('card')" class="payment-option bg-white rounded-xl border-2 border-gray-200 p-3.5 cursor-pointer transition-all btn-active">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-lg bg-marca-50 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-marca-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M2 10h20"/></svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-semibold text-gray-800 font-display">Cartão de Crédito</p>
+                            <p class="text-[11px] text-gray-500 font-body">Visa, Mastercard, Elo, Hipercard</p>
+                        </div>
+                        <div id="pg-card-radio" class="ml-auto w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0"></div>
+                    </div>
+                    <!-- Card Form -->
+                    <div id="pg-card-form" class="hidden mt-3 pt-3 border-t border-gray-100 space-y-2.5">
+                        <div>
+                            <label class="text-xs text-gray-600 font-medium block mb-1 font-body">Número do cartão</label>
+                            <input type="text" id="pg-card-num" placeholder="0000 0000 0000 0000" maxlength="19" oninput="pagamento_e_checkout_maskCard(this)" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 focus:ring-2 focus:ring-marca-200 focus:border-marca-400 outline-none transition-all font-body" />
+                        </div>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="text-xs text-gray-600 font-medium block mb-1 font-body">Validade</label>
+                                <input type="text" id="pg-card-exp" placeholder="MM/AA" maxlength="5" oninput="pagamento_e_checkout_maskExp(this)" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 focus:ring-2 focus:ring-marca-200 focus:border-marca-400 outline-none transition-all font-body" />
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-600 font-medium block mb-1 font-body">CVV</label>
+                                <input type="text" id="pg-card-cvv" placeholder="000" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 focus:ring-2 focus:ring-marca-200 focus:border-marca-400 outline-none transition-all font-body" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-600 font-medium block mb-1 font-body">Nome no cartão</label>
+                            <input type="text" id="pg-card-name" placeholder="Como está no cartão" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 focus:ring-2 focus:ring-marca-200 focus:border-marca-400 outline-none transition-all font-body" />
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-600 font-medium block mb-1 font-body">Parcelamento</label>
+                            <select id="pg-card-inst" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 focus:ring-2 focus:ring-marca-200 focus:border-marca-400 outline-none transition-all font-body">
+                                <option value="1">1x de R$ 76,23 sem juros</option>
+                                <option value="2">2x de R$ 38,12 sem juros</option>
+                                <option value="3" selected>3x de R$ 25,41 sem juros</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boleto Option -->
+                <div id="pg-boleto-opt" onclick="pagamento_e_checkout_select('boleto')" class="payment-option bg-white rounded-xl border-2 border-gray-200 p-3.5 cursor-pointer transition-all btn-active">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-lg bg-orange-50 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M4 8h16M4 13h16M4 18h10"/></svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-semibold text-gray-800 font-display">Boleto Bancário</p>
+                            <p class="text-[11px] text-gray-500 font-body">Vencimento em 1 dia útil</p>
+                        </div>
+                        <div id="pg-boleto-radio" class="ml-auto w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0"></div>
+                    </div>
+                    <div id="pg-boleto-form" class="hidden mt-3 pt-3 border-t border-gray-100 space-y-2.5">
+                        <div class="bg-orange-50 rounded-lg p-3 space-y-1">
+                            <div class="flex justify-between text-xs font-body">
+                                <span class="text-orange-700">Vencimento</span>
+                                <span class="font-semibold text-orange-800" id="pg-boleto-venc">17/01/2025</span>
+                            </div>
+                            <div class="flex justify-between text-xs font-body">
+                                <span class="text-orange-700">Valor</span>
+                                <span class="font-semibold text-orange-800">R$ 76,23</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="pagamento_e_checkout_downloadBoleto()" class="flex-1 bg-orange-500 text-white text-xs font-semibold py-2.5 rounded-lg font-body btn-active transition-colors hover:bg-orange-600 flex items-center justify-center gap-1.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                Baixar Boleto
+                            </button>
+                            <button onclick="pagamento_e_checkout_copyBoleto()" class="bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-2.5 rounded-lg font-body btn-active transition-colors hover:bg-orange-200 flex items-center justify-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spacer for bottom CTA -->
+        <div class="h-4"></div>
+    </div>
+
+    <!-- STEP 2: PIX QR DISPLAY -->
+    <div id="pg-step2" class="hidden p-4 space-y-3">
+        <button onclick="pagamento_e_checkout_goStep1()" class="flex items-center gap-1 text-marca-600 text-sm font-medium font-body btn-active transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            Voltar
+        </button>
+        <div class="text-center">
+            <p class="text-xs text-gray-500 font-body mb-0.5">Escaneie o QR Code</p>
+            <h2 class="text-lg font-bold text-marca-900 font-display">Pague com Pix</h2>
+        </div>
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col items-center">
+            <div id="pg-qr-display" class="w-48 h-48 rounded-xl border-2 border-gray-200 overflow-hidden p-2 bg-white">
+                <!-- QR-like SVG pattern -->
+                <svg viewBox="0 0 180 180" class="w-full h-full">
+                    <rect width="180" height="180" fill="#fff"/>
+                    <rect class="qr-dark" x="8" y="8" width="50" height="50" rx="4"/>
+                    <rect class="qr-cell" x="14" y="14" width="38" height="38" rx="2"/>
+                    <rect class="qr-dark" x="20" y="20" width="26" height="26" rx="1"/>
+                    <rect class="qr-cell" x="26" y="26" width="14" height="14" rx="1"/>
+                    <rect class="qr-dark" x="122" y="8" width="50" height="50" rx="4"/>
+                    <rect class="qr-cell" x="128" y="14" width="38" height="38" rx="2"/>
+                    <rect class="qr-dark" x="134" y="20" width="26" height="26" rx="1"/>
+                    <rect class="qr-cell" x="140" y="26" width="14" height="14" rx="1"/>
+                    <rect class="qr-dark" x="8" y="122" width="50" height="50" rx="4"/>
+                    <rect class="qr-cell" x="14" y="128" width="38" height="38" rx="2"/>
+                    <rect class="qr-dark" x="20" y="134" width="26" height="26" rx="1"/>
+                    <rect class="qr-cell" x="26" y="140" width="14" height="14" rx="1"/>
+                    <rect class="qr-dark" x="66" y="8" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="82" y="8" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="98" y="8" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="66" y="24" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="90" y="24" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="106" y="24" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="66" y="40" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="82" y="40" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="98" y="40" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="8" y="66" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="24" y="66" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="40" y="66" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="8" y="82" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="32" y="82" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="8" y="98" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="24" y="98" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="40" y="98" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="66" y="66" width="48" height="48" rx="6"/>
+                    <rect class="qr-cell" x="74" y="74" width="32" height="32" rx="3"/>
+                    <path class="qr-dark" d="M82 82h16v6h-6v6h6v6h-6v6h6v4h-16z" fill="currentColor"/>
+                    <rect class="qr-dark" x="66" y="122" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="82" y="122" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="98" y="122" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="114" y="122" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="130" y="122" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="146" y="122" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="66" y="138" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="90" y="138" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="106" y="138" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="122" y="138" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="66" y="154" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="82" y="154" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="98" y="154" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="122" y="154" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="138" y="154" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="158" y="154" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="122" y="66" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="138" y="66" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="154" y="66" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="122" y="82" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="146" y="82" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="122" y="98" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="138" y="98" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="154" y="98" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="158" y="8" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="158" y="24" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="158" y="40" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="158" y="82" width="8" height="8" rx="1"/>
+                    <rect class="qr-dark" x="158" y="98" width="8" height="8" rx="1"/>
+                </svg>
+            </div>
+            <p class="text-[11px] text-gray-500 mt-3 font-body">Abra o app do seu banco e escaneie o QR Code</p>
+            <p class="text-[11px] text-gray-400 mt-0.5 font-body">O pagamento será confirmado automaticamente</p>
+        </div>
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-3.5 space-y-1 text-xs font-body">
+            <div class="flex justify-between"><span class="text-gray-500">Valor do Pix</span><span class="text-gray-800 font-semibold">R$ 76,23</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">Validade do QR</span><span class="text-amber-600 font-medium">15 minutos</span></div>
+        </div>
+        <button onclick="pagamento_e_checkout_confirmPix()" class="w-full bg-emerald-500 text-white text-sm font-semibold py-3.5 rounded-xl font-body btn-active transition-colors hover:bg-emerald-600 flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            Já fiz o pagamento
+        </button>
+    </div>
+
+    <!-- STEP 3: LOADING -->
+    <div id="pg-step3" class="hidden flex flex-col items-center justify-center py-16 px-4 step-fade">
+        <div class="spinner mb-4"></div>
+        <p class="text-sm font-semibold text-gray-800 font-display" id="pg-loading-text">Confirmando pagamento...</p>
+        <p class="text-xs text-gray-500 mt-1 font-body">Aguarde alguns instantes</p>
+    </div>
+
+    <!-- STEP 4: SUCCESS -->
+    <div id="pg-step4" class="hidden p-4 space-y-3 step-fade">
+        <div class="flex flex-col items-center pt-6 pb-2">
+            <svg class="w-20 h-20 mb-3" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="36" fill="none" stroke="#10B981" stroke-width="3" class="checkmark-circle"/>
+                <path d="M24 42l9 9 17-20" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="checkmark-check"/>
+            </svg>
+            <h2 class="text-xl font-bold text-marca-900 font-display">Pagamento Confirmado!</h2>
+            <p class="text-xs text-gray-500 mt-1 font-body">Seus ebooks já estão disponíveis</p>
+        </div>
+
+        <!-- Order Number -->
+        <div class="bg-marca-50 rounded-xl p-4 text-center border border-marca-100">
+            <p class="text-[11px] text-marca-500 font-body uppercase tracking-wide">Número do pedido</p>
+            <p class="text-lg font-bold text-marca-900 mt-0.5 font-display tracking-wider">#BC-2025-001518</p>
+            <p class="text-[11px] text-gray-500 mt-1 font-body">Realizado em 15/01/2025 às 14h32</p>
+        </div>
+
+        <!-- Summary -->
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 space-y-2 text-xs font-body">
+            <p class="text-sm font-semibold text-gray-800 font-display mb-2">Resumo do pedido</p>
+            <div class="space-y-1.5">
+                <div class="flex justify-between"><span class="text-gray-500">3 ebooks</span><span class="text-gray-700 font-medium">R$ 84,70</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">Desconto</span><span class="text-emerald-600">− R$ 8,47</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">Frete</span><span class="text-emerald-600">Grátis</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">Pagamento</span><span class="text-gray-700 font-medium">Pix</span></div>
+                <div class="border-t border-gray-100 pt-1.5 flex justify-between items-baseline">
+                    <span class="font-semibold text-gray-800 font-display">Total pago</span>
+                    <span class="text-lg font-bold text-marca-900 font-display">R$ 76,23</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Items purchased -->
+        <div class="space-y-2">
+            <p class="text-xs font-semibold text-gray-600 font-display">ITENS ADQUIRIDOS</p>
+            <div class="flex gap-2.5 bg-white rounded-xl border border-gray-100 p-3 items-center">
+                <div class="w-11 h-16 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex-shrink-0 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-semibold text-gray-800 truncate font-display">O Pequeno Príncipe</p>
+                    <p class="text-[10px] text-gray-500 font-body">Ebook • PDF + EPUB</p>
+                </div>
+                <button onclick="mostrarTela('leitor-de-ebook')" class="bg-marca-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg btn-active transition-colors hover:bg-marca-600 font-body flex-shrink-0">Ler</button>
+            </div>
+            <div class="flex gap-2.5 bg-white rounded-xl border border-gray-100 p-3 items-center">
+                <div class="w-11 h-16 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex-shrink-0 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-semibold text-gray-800 truncate font-display">Mindset Milionário</p>
+                    <p class="text-[10px] text-gray-500 font-body">Ebook • PDF</p>
+                </div>
+                <button onclick="mostrarTela('leitor-de-ebook')" class="bg-marca-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg btn-active transition-colors hover:bg-marca-600 font-body flex-shrink-0">Ler</button>
+            </div>
+            <div class="flex gap-2.5 bg-white rounded-xl border border-gray-100 p-3 items-center">
+                <div class="w-11 h-16 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex-shrink-0 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-semibold text-gray-800 truncate font-display">Sapiens</p>
+                    <p class="text-[10px] text-gray-500 font-body">Ebook • EPUB + MOBI</p>
+                </div>
+                <button onclick="mostrarTela('leitor-de-ebook')" class="bg-marca-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg btn-active transition-colors hover:bg-marca-600 font-body flex-shrink-0">Ler</button>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-2 gap-2.5">
+            <button onclick="mostrarTela('minha-biblioteca')" class="bg-marca-500 text-white text-sm font-semibold py-3.5 rounded-xl font-body btn-active transition-colors hover:bg-marca-600 flex items-center justify-center gap-1.5 shadow-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                Acessar Ebook
+            </button>
+            <button onclick="pagamento_e_checkout_share()" class="bg-white border border-gray-200 text-gray-700 text-sm font-semibold py-3.5 rounded-xl font-body btn-active transition-colors hover:bg-gray-50 flex items-center justify-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.5 9 12c0-.5-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 111.024 5.435l-6.632 3.316m6.632-3.316l-6.632-3.316"/></svg>
+                Compartilhar
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom CTA for step1 -->
+    <div id="pg-bottom-cta" class="fixed bottom-0 left-0 right-0 p-3 bg-white/90 backdrop-blur-md border-t border-gray-100 z-40">
+        <div class="max-w-[430px] mx-auto">
+            <button id="pg-btn-confirm" onclick="pagamento_e_checkout_confirm()" class="w-full bg-marca-500 text-white text-sm font-bold py-3.5 rounded-xl font-body btn-active transition-colors hover:bg-marca-600 flex items-center justify-center gap-2 shadow-lg disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                Confirmar e Pagar
+            </button>
+            <p class="text-center text-[10px] text-gray-400 mt-1.5 font-body flex items-center justify-center gap-1">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                Seus dados estão protegidos
+            </p>
+        </div>
+    </div>
+
+    <script>
+    var pgState = { method: 'pix', step: 1 };
+
+    function pagamento_e_checkout_select(method) {
+        pgState.method = method;
+        var opts = ['pix','card','boleto'];
+        opts.forEach(function(m) {
+            var el = document.getElementById('pg-' + m + '-opt');
+            var radio = document.getElementById('pg-' + m + '-radio');
+            var form = document.getElementById('pg-' + m + '-form');
+            if (m === method) {
+                el.classList.remove('border-gray-200');
+                el.classList.add('border-marca-500','bg-blue-50');
+                radio.innerHTML = '<svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>';
+                radio.classList.remove('border-gray-300');
+                radio.classList.add('border-marca-500','bg-marca-500');
+                if (form) { form.classList.remove('hidden'); }
+            } else {
+                el.classList.add('border-gray-200');
+                el.classList.remove('border-marca-500','bg-blue-50');
+                radio.innerHTML = '';
+                radio.classList.add('border-gray-300');
+                radio.classList.remove('border-marca-500','bg-marca-500');
+                if (form) { form.classList.add('hidden'); }
+            }
+        });
+        var btn = document.getElementById('pg-btn-confirm');
+        btn.disabled = false;
+        if (method === 'card') {
+            if (!document.getElementById('pg-card-num').value) { btn.disabled = true; }
+        }
+    }
+
+    function pagamento_e_checkout_maskCard(el) {
+        var v = el.value.replace(/\D/g, '').slice(0,16);
+        var formatted = v.replace(/(\d{4})(?=\d)/g, '$1 ');
+        el.value = formatted;
+        var btn = document.getElementById('pg-btn-confirm');
+        if (v.length === 16 && document.getElementById('pg-card-exp').value.length === 5 && document.getElementById('pg-card-cvv').value.length === 3 && document.getElementById('pg-card-name').value.length > 2) {
+            btn.disabled = false;
+        }
+        ['card-num','card-exp','card-cvv','card-name'].forEach(function(f) {
+            var inp = document.getElementById('pg-' + f);
+            if (inp) inp.addEventListener('input', function() {
+                var n = document.getElementById('pg-card-num').value.replace(/\s/g,'').length;
+                var e = document.getElementById('pg-card-exp').value.length;
+                var c = document.getElementById('pg-card-cvv').value.length;
+                var nm = document.getElementById('pg-card-name').value.length;
+                document.getElementById('pg-btn-confirm').disabled = !(n===16 && e===5 && c===3 && nm>2);
+            });
+        });
+    }
+
+    function pagamento_e_checkout_maskExp(el) {
+        var v = el.value.replace(/\D/g, '').slice(0,4);
+        if (v.length >= 3) { v = v.slice(0,2) + '/' + v.slice(2); }
+        el.value = v;
+    }
+
+    function pagamento_e_checkout_editCart() {
+        mostrarTela('carrinho-de-compras');
+    }
+
+    function pagamento_e_checkout_goStep2() {
+        if (pgState.method === 'boleto') {
+            var today = new Date();
+            var venc = new Date(today); venc.setDate(venc.getDate() + 1);
+            var meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+            document.getElementById('pg-boleto-venc').textContent = String(venc.getDate()).padStart(2,'0') + '/' + meses[venc.getMonth()] + '/' + venc.getFullYear();
+        }
+        if (pgState.method === 'pix') {
+            document.getElementById('pg-step1').classList.add('hidden');
+            document.getElementById('pg-step2').classList.remove('hidden');
+            document.getElementById('pg-bottom-cta').classList.add('hidden');
+            pgState.step = 2;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    }
+
+    function pagamento_e_checkout_goStep1() {
+        document.getElementById('pg-step2').classList.add('hidden');
+        document.getElementById('pg-step1').classList.remove('hidden');
+        document.getElementById('pg-bottom-cta').classList.remove('hidden');
+        pgState.step = 1;
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function pagamento_e_checkout_confirmPix() {
+        document.getElementById('pg-step2').classList.add('hidden');
+        document.getElementById('pg-step3').classList.remove('hidden');
+        document.getElementById('pg-bottom-cta').classList.add('hidden');
+        pgState.step = 3;
+        document.getElementById('pg-loading-text').textContent = 'Confirmando pagamento Pix...';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        setTimeout(function() {
+            document.getElementById('pg-loading-text').textContent = 'Processando pedido...';
+            setTimeout(function() {
+                document.getElementById('pg-loading-text').textContent = 'Gerando seus ebooks...';
+                setTimeout(function() {
+                    pagamento_e_checkout_showSuccess();
+                }, 1200);
+            }, 1000);
+        }, 1500);
+    }
+
+    function pagamento_e_checkout_confirm() {
+        if (pgState.method === 'pix') { pagamento_e_checkout_goStep2(); return; }
+        if (pgState.method === 'boleto') {
+            toast('Boleto gerado! Prazo de compensação: 1 dia útil.', 'info');
+            return;
+        }
+        if (pgState.method === 'card') {
+            var num = document.getElementById('pg-card-num').value.replace(/\s/g,'');
+            var exp = document.getElementById('pg-card-exp').value;
+            var cvv = document.getElementById('pg-card-cvv').value;
+            var nm = document.getElementById('pg-card-name').value;
+            if (num.length !== 16 || exp.length < 5 || cvv.length < 3 || nm.length < 3) {
+                toast('Preencha todos os dados do cartão.', 'erro');
+                return;
+            }
+        }
+        document.getElementById('pg-step1').classList.add('hidden');
+        document.getElementById('pg-step3').classList.remove('hidden');
+        document.getElementById('pg-bottom-cta').classList.add('hidden');
+        pgState.step = 3;
+        document.getElementById('pg-loading-text').textContent = 'Processando pagamento...';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        setTimeout(function() {
+            document.getElementById('pg-loading-text').textContent = 'Confirmando transação...';
+            setTimeout(function() {
+                pagamento_e_checkout_showSuccess();
+            }, 1800);
+        }, 1200);
+    }
+
+    function pagamento_e_checkout_showSuccess() {
+        document.getElementById('pg-step3').classList.add('hidden');
+        document.getElementById('pg-step4').classList.remove('hidden');
+        document.getElementById('pg-bottom-cta').classList.add('hidden');
+        pgState.step = 4;
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        toast('Pedido confirmado com sucesso!', 'ok');
+    }
+
+    function pagamento_e_checkout_share() {
+        toast('Link do pedido copiado!', 'ok');
+    }
+
+    function pagamento_e_checkout_downloadBoleto() {
+        toast('Boleto enviado para o seu e-mail.', 'ok');
+    }
+
+    function pagamento_e_checkout_copyBoleto() {
+        toast('Código do boleto copiado!', 'ok');
+    }
+
+    function pagamento_e_checkout_openDiscount() {
+        toast('Cupom PRIMEIRA10: 10% de desconto já aplicado.', 'info');
+    }
+    </script>
+</section>
+
     <!-- TELAS -->
         </main>
 
