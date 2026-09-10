@@ -599,6 +599,206 @@
       </script>
     </section>
 
+    <section data-tela="carrinho-de-compras" class="hidden">
+  <div class="flex flex-col h-[calc(100dvh-4rem)]">
+    <div class="flex-1 overflow-y-auto px-4 pt-4 pb-48">
+      <div class="mb-4">
+        <h1 class="font-display text-2xl font-bold text-marca-900 tracking-tight">Carrinho</h1>
+        <p class="text-sm text-marca-600 mt-0.5">Revise seus itens antes de finalizar</p>
+      </div>
+
+      <div id="carrinho-cupom" class="mb-5">
+        <div class="flex gap-2">
+          <input id="input-cupom" type="text" placeholder="Cupom de desconto" class="flex-1 px-4 py-2.5 rounded-xl border border-marca-200 bg-white text-sm text-marca-900 placeholder:text-marca-400 focus:outline-none focus:ring-2 focus:ring-marca-400 focus:border-transparent transition-all" />
+          <button onclick="carrinho_de_compras_aplicar_cupom()" class="px-5 py-2.5 bg-marca-900 text-white text-sm font-semibold rounded-xl active:scale-95 transition-all hover:bg-marca-800">Aplicar</button>
+        </div>
+        <p id="cupom-msg" class="text-xs mt-1.5 hidden"></p>
+      </div>
+
+      <div id="carrinho-vazio" class="hidden flex flex-col items-center justify-center py-16 text-center">
+        <div class="w-28 h-28 rounded-full bg-marca-50 flex items-center justify-center mb-5">
+          <svg class="w-14 h-14 text-marca-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>
+        </div>
+        <p class="font-display text-lg font-semibold text-marca-800 mb-1">Sua biblioteca está esperando</p>
+        <p class="text-sm text-marca-500 mb-5 max-w-[260px]">Explore nosso catálogo e encontre ebooks incríveis para ler agora mesmo.</p>
+        <button onclick="mostrarTela('home-vitrine')" class="px-6 py-3 bg-marca-500 text-white font-semibold rounded-xl active:scale-95 transition-all hover:bg-marca-600 text-sm">Explorar Catálogo</button>
+      </div>
+
+      <div id="carrinho-lista" class="space-y-3"></div>
+    </div>
+
+    <div id="carrinho-footer" class="hidden fixed bottom-0 left-0 right-0 z-40">
+      <div class="max-w-[430px] mx-auto">
+        <div class="bg-white/90 backdrop-blur-xl border-t border-marca-100 rounded-t-2xl px-4 pt-4 pb-6 shadow-[0_-4px_24px_rgba(30,58,95,0.08)]">
+          <div class="space-y-1.5 mb-3">
+            <div class="flex justify-between text-sm text-marca-600"><span>Subtotal</span><span id="resumo-subtotal">R$ 0,00</span></div>
+            <div id="resumo-linha-desconto" class="hidden flex justify-between text-sm text-green-600 font-medium"><span>Desconto (5% Pix)</span><span id="resumo-desconto-valor">-R$ 0,00</span></div>
+            <div id="resumo-linha-cupom" class="hidden flex justify-between text-sm text-green-600 font-medium"><span id="resumo-cupom-label">Cupom</span><span id="resumo-cupom-valor">-R$ 0,00</span></div>
+            <div class="h-px bg-marca-100 my-1"></div>
+            <div class="flex justify-between items-baseline"><span class="font-semibold text-marca-900">Total</span><span id="resumo-total" class="font-display text-xl font-bold text-marca-900">R$ 0,00</span></div>
+          </div>
+          <button onclick="carrinho_de_compras_finalizar()" class="w-full py-3.5 bg-marca-500 text-white font-bold rounded-xl active:scale-[0.98] transition-all hover:bg-marca-600 text-sm shadow-lg shadow-marca-500/20 flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+            Finalizar Pedido
+          </button>
+          <div class="flex items-center justify-center gap-4 mt-3">
+            <div class="flex items-center gap-1 text-marca-400"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><span class="text-[10px] font-medium">Compra protegida</span></div>
+            <div class="w-px h-3 bg-marca-200"></div>
+            <div class="flex items-center gap-1 text-marca-400"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg><span class="text-[10px] font-medium">Pagamento 100% seguro</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const estado = {
+    itens: [
+      {id:'e1',titulo:'A Revolução dos Bichos',autor:'George Orwell',formato:'EPUB',preco:19.90,qtd:1,cor:'#1E3A5F',iniciais:'RB'},
+      {id:'e2',titulo:'O Pequeno Príncipe',autor:'Antoine de Saint-Exupéry',formato:'PDF',preco:14.90,qtd:1,cor:'#2563EB',iniciais:'PP'},
+      {id:'e3',titulo:'1984',autor:'George Orwell',formato:'EPUB',preco:22.90,qtd:2,cor:'#0F2440',iniciais:'84'},
+      {id:'e4',titulo:'Sapiens',autor:'Yuval Noah Harari',formato:'EPUB',preco:34.90,qtd:1,cor:'#1a4f8b',iniciais:'SA'},
+      {id:'e5',titulo:'Mindset',autor:'Carol S. Dweck',formato:'PDF',preco:27.90,qtd:1,cor:'#2563EB',iniciais:'MI'},
+      {id:'e6',titulo:'Clean Code',autor:'Robert C. Martin',formato:'EPUB',preco:45.90,qtd:1,cor:'#1E3A5F',iniciais:'CC'},
+    ],
+    cupomAplicado: null,
+    pixDesconto: 0.05,
+  };
+
+  function calcularResumo(){
+    let subtotal = estado.itens.reduce((s,i)=>s+i.preco*i.qtd,0);
+    let descontoPix = estado.cupomAplicado ? 0 : subtotal * estado.pixDesconto;
+    let descontoCupom = 0;
+    if(estado.cupomAplicado === 'LIVRO10') descontoCupom = subtotal * 0.10;
+    if(estado.cupomAplicado === 'BLUECIRCUIT') descontoCupom = Math.min(subtotal * 0.15, 20);
+    let total = Math.max(0, subtotal - descontoPix - descontoCupom);
+    return {subtotal, descontoPix, descontoCupom, total};
+  }
+
+  function fmt(v){return 'R$ '+v.toFixed(2).replace('.',',');}
+
+  function stepper(id,delta){
+    const item = estado.itens.find(i=>i.id===id);
+    if(!item) return;
+    const nv = item.qtd+delta;
+    if(nv<1){carrinho_de_compras_remover(id); return;}
+    item.qtd=nv;
+    render();
+  }
+
+  function remover(id){
+    estado.itens = estado.itens.filter(i=>i.id!==id);
+    estado.cupomAplicado = null;
+    render();
+    toast('Item removido do carrinho','info');
+  }
+
+  function render(){
+    const lista = document.getElementById('carrinho-lista');
+    const vazio = document.getElementById('carrinho-vazio');
+    const footer = document.getElementById('carrinho-footer');
+    const resumo = calcularResumo();
+    if(!lista) return;
+    if(estado.itens.length===0){
+      vazio.classList.remove('hidden');vazio.classList.add('flex');
+      lista.innerHTML='';footer.classList.add('hidden');
+      return;
+    }
+    vazio.classList.add('hidden');vazio.classList.remove('flex');
+    footer.classList.remove('hidden');
+    lista.innerHTML = estado.itens.map(item=>`
+      <div class="bg-white rounded-2xl border border-marca-100 p-3 shadow-sm flex gap-3 items-center transition-all hover:shadow-md">
+        <div class="w-14 h-20 rounded-lg flex-shrink-0 flex items-center justify-center relative overflow-hidden shadow-sm" style="background:linear-gradient(135deg,${item.cor} 0%,#2563EB 100%)">
+          <div class="absolute inset-0 opacity-10" style="background:radial-gradient(circle at 30% 20%,white 0%,transparent 60%)"></div>
+          <span class="text-white/90 text-[10px] font-bold tracking-wider uppercase leading-tight text-center px-1">${item.titulo.split(' ').slice(0,2).join(' ')}</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-sm text-marca-900 truncate">${item.titulo}</p>
+          <p class="text-xs text-marca-500 mt-0.5">${item.autor}</p>
+          <span class="inline-block mt-1 px-2 py-0.5 rounded-md bg-marca-50 text-marca-700 text-[10px] font-semibold uppercase tracking-wider">${item.formato}</span>
+          <div class="flex items-center justify-between mt-2.5">
+            <div class="flex items-center gap-1.5">
+              <button onclick="carrinho_de_compras_stepper('${item.id}',-1)" class="w-7 h-7 rounded-lg border border-marca-200 flex items-center justify-center text-marca-600 hover:bg-marca-50 active:scale-90 transition-all text-sm font-bold">−</button>
+              <span class="text-sm font-semibold text-marca-900 w-6 text-center">${item.qtd}</span>
+              <button onclick="carrinho_de_compras_stepper('${item.id}',1)" class="w-7 h-7 rounded-lg border border-marca-200 flex items-center justify-center text-marca-600 hover:bg-marca-50 active:scale-90 transition-all text-sm font-bold">+</button>
+            </div>
+            <span class="font-semibold text-sm text-marca-900">${fmt(item.preco*item.qtd)}</span>
+          </div>
+        </div>
+        <button onclick="carrinho_de_compras_remover('${item.id}')" class="self-start p-1.5 text-marca-300 hover:text-red-500 active:scale-90 transition-all rounded-lg hover:bg-red-50" aria-label="Remover item">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    `).join('');
+
+    document.getElementById('resumo-subtotal').textContent = fmt(resumo.subtotal);
+    document.getElementById('resumo-total').textContent = fmt(resumo.total);
+
+    const linhaPix = document.getElementById('resumo-linha-desconto');
+    if(!estado.cupomAplicado){
+      linhaPix.classList.remove('hidden');linhaPix.classList.add('flex');
+      document.getElementById('resumo-desconto-valor').textContent = '-'+fmt(resumo.descontoPix);
+    } else {
+      linhaPix.classList.add('hidden');linhaPix.classList.remove('flex');
+    }
+
+    const linhaCupom = document.getElementById('resumo-linha-cupom');
+    if(estado.cupomAplicado){
+      linhaCupom.classList.remove('hidden');linhaCupom.classList.add('flex');
+      document.getElementById('resumo-cupom-label').textContent = 'Cupom ('+estado.cupomAplicado+')';
+      document.getElementById('resumo-cupom-valor').textContent = '-'+fmt(resumo.descontoCupom);
+    } else {
+      linhaCupom.classList.add('hidden');linhaCupom.classList.remove('flex');
+    }
+  }
+
+  window.carrinho_de_compras_stepper = stepper;
+  window.carrinho_de_compras_remover = remover;
+
+  window.carrinho_de_compras_aplicar_cupom = function(){
+    const inp = document.getElementById('input-cupom');
+    const msg = document.getElementById('cupom-msg');
+    const v = inp.value.trim().toUpperCase();
+    if(!v){msg.textContent='Informe um código de cupom.';msg.className='text-xs mt-1.5 text-red-500';return;}
+    if(estado.cupomAplicado){msg.textContent='Já existe um cupom aplicado.';msg.className='text-xs mt-1.5 text-red-500';return;}
+    if(v==='LIVRO10'){
+      estado.cupomAplicado='LIVRO10';
+      msg.textContent='Cupom LIVRO10 aplicado! 10% de desconto.';msg.className='text-xs mt-1.5 text-green-600 font-medium';
+      toast('Cupom aplicado com sucesso!','ok');
+    } else if(v==='BLUECIRCUIT'){
+      estado.cupomAplicado='BLUECIRCUIT';
+      msg.textContent='Cupom BLUECIRCUIT aplicado! 15% OFF (max R$20).';msg.className='text-xs mt-1.5 text-green-600 font-medium';
+      toast('Cupom BLUECIRCUIT aplicado!','ok');
+    } else {
+      msg.textContent='Cupom inválido. Tente LIVRO10 ou BLUECIRCUIT.';msg.className='text-xs mt-1.5 text-red-500';
+      toast('Cupom inválido','erro');
+    }
+    render();inp.value='';
+  };
+
+  window.carrinho_de_compras_finalizar = function(){
+    if(estado.itens.length===0){toast('Carrinho vazio!','erro');return;}
+    const resumo = calcularResumo();
+    const html = '<div class="space-y-3">'+
+      estado.itens.map(i=>'<div class="flex justify-between text-sm"><span class="text-marca-600">'+i.qtd+'x '+i.titulo+'</span><span class="font-semibold text-marca-900">'+fmt(i.preco*i.qtd)+'</span></div>').join('')+
+      '<div class="h-px bg-marca-100 my-2"></div>'+
+      (estado.cupomAplicado?'<div class="flex justify-between text-sm text-green-600"><span>Descontos</span><span>-'+fmt(resumo.descontoPix+resumo.descontoCupom)+'</span></div>':'')+
+      '<div class="flex justify-between font-bold text-lg"><span class="text-marca-900">Total</span><span class="text-marca-900">'+fmt(resumo.total)+'</span></div>'+
+      '<div class="bg-marca-50 rounded-xl p-3 flex items-center gap-2 mt-2"><svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><span class="text-xs text-marca-600">Pagamento seguro via Pix, cartão ou boleto.</span></div>'+
+      '<button onclick="fecharModal();mostrarTela(\'pagamento-e-checkout\')" class="w-full py-3 bg-marca-500 text-white font-bold rounded-xl active:scale-[0.98] transition-all hover:bg-marca-600 text-sm mt-2">Ir para Pagamento</button>'+
+    '</div>';
+    abrirModal(html,'Resumo do Pedido');
+  };
+
+  document.addEventListener('telaCarregada', function(e){
+    if(e.detail.tela==='carrinho-de-compras') render();
+  });
+  render();
+})();
+</script>
+
     <!-- TELAS -->
         </main>
 
